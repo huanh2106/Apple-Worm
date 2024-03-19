@@ -1,78 +1,49 @@
 #include "BaseObject.h"
 #include "CommonFunc.h"
+#include "game_map.h"
+
 BaseObject g_background;
 
-bool initData()
-{
-	bool success = true;
-	int ret = SDL_Init(SDL_INIT_VIDEO);
-	if(ret<0)
-		return false;
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-	g_window = SDL_CreateWindow("Apple Worm by Huy", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	if (g_window == NULL)
-	{
-		success = false;
-	}
-	else
-	{
-		g_screen = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
-		if (g_screen == NULL)
-		{
-			success = false;
-		}
-		else
-		{
-			SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-			int imgFlags = IMG_INIT_PNG;
-			if (!(IMG_Init(imgFlags) && imgFlags))
-			{
-				success = false;
-			}
-		}
-	}
-	{
+void initData() {
+    SDL_Init(SDL_INIT_VIDEO);
+    g_window = SDL_CreateWindow("Apple Worm by Huy", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    g_screen = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
+    SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+    IMG_Init(IMG_INIT_PNG);
+}
 
-	}
+bool LoadBackground() {
+    return g_background.LoadImg("image//background.png", g_screen);
 }
-bool LoadBackground()
-{
-	bool ret = g_background.LoadImg("image//background.png", g_screen);
-	if (ret == false)
-		return false;
-	return true;
+
+void close() {
+    g_background.Free();
+    SDL_DestroyRenderer(g_screen);
+    SDL_DestroyWindow(g_window);
+    IMG_Quit();
+    SDL_Quit();
 }
-void close()
-{
-	g_background.Free();
-	SDL_DestroyRenderer(g_screen);
-	g_screen = NULL;
-	SDL_DestroyWindow(g_window);
-	g_window = NULL;
-	IMG_Quit();
-	SDL_Quit();
-}
-int main(int argc, char* argv[])
-{
-	if (initData() == false)
-		return -1;
-	if (LoadBackground() == false)
-		return -1;
-	bool is_quit = false;
-	while (!is_quit)
-	{
-		while (SDL_PollEvent(&g_event) != 0)
-		{
-			if (g_event.type == SDL_QUIT)
-			{
-				is_quit = true;
-			}
-		}
-		SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-		SDL_RenderClear(g_screen);
-		g_background.Render(g_screen, NULL);
-		SDL_RenderPresent(g_screen);
-	}
-	close();
-	return 0;
+
+int main(int argc, char* argv[]) {
+    initData();
+    LoadBackground();
+
+    GameMap game_map;
+    game_map.LoadMap("map//map01.dat");
+    game_map.LoadTiles(g_screen);
+
+    bool is_quit = false;
+    while (!is_quit) {
+        while (SDL_PollEvent(&g_event) != 0) {
+            if (g_event.type == SDL_QUIT) {
+                is_quit = true;
+            }
+        }
+        SDL_RenderClear(g_screen);
+        g_background.Render(g_screen, NULL);
+        game_map.DrawMap(g_screen);
+        SDL_RenderPresent(g_screen);
+    }
+    close();
+    return 0;
 }

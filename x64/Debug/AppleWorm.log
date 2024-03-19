@@ -1,3 +1,8 @@
 ﻿  main.cpp
-C:\UET\AppleWorm\AppleWorm\main.cpp(37,1): warning C4715: 'initData': not all control paths return a value
+C:\UET\AppleWorm\AppleWorm\CommonFunc.h(31,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
+  (compiling source file 'main.cpp')
+  
+C:\UET\AppleWorm\AppleWorm\CommonFunc.h(44,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
+  (compiling source file 'main.cpp')
+  
   AppleWorm.vcxproj -> C:\UET\AppleWorm\x64\Debug\AppleWorm.exe

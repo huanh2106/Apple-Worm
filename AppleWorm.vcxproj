@@ -133,11 +133,14 @@
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="game_map.cpp" />
+    <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="CommonFunc.h" />
-    <ClInclude Include="map.h" />
+    <ClInclude Include="game_map.h" />
+    <ClInclude Include="Worm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
