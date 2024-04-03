@@ -2,38 +2,50 @@
 #define WORM_H_
 #include "CommonFunc.h"
 #include "BaseObject.h"
+#include<queue>
+class GameMap;
 
-class Worm : public BaseObject
+enum UserInput {
+	NO_INPUT = 0, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT
+};
+enum CellType {
+	CELL_EMPTY = 0, CELL_WORM, CELL_APPLE, CELL_STONE
+};
+struct WormNode
 {
-	Worm();
-	~Worm();
-	enum WalkType
+	Position pos;
+	WormNode* next;
+	WormNode(Position position, WormNode* n=NULL) : pos(position), next(n) {}
+	static WormNode* insertHead(WormNode* head, Position position)
 	{
-		WALK_RIGHT = 0,
-		WALK_LEFT = 1,
-		WALK_UP = 2,
-		WALK_DOWN = 3,
-	};
-    bool LoadImg(std::string path, SDL_Renderer* screen);
-	void show(SDL_Renderer* des);
-	void handleInputAction(SDL_Event events, SDL_Renderer* screen);
-	void set_clips();
+		WormNode* newHead= new WormNode(position, head);
+		return newHead;
+	}
+	
+};
 
-private:
+class Worm
+{
+	WormNode* head;
+    GameMap* map;
+	Direction dir;
+	std::queue<UserInput> inputQueue;
+	 
+	int apple;
+public:
+	Worm(GameMap* map);
+	~Worm();	
+	void processUserInput(UserInput input);
+	void nextStep();
+	bool checkPosition(Position p);
+	WormNode* getHead() const { return head; }
+	void setHead(WormNode* h) { head = h; }
+	void drawWorm();
+	private:
+		Direction changeDirection(UserInput input);
+		void changePlayGroundState(CellType type);
 
-	float x_val_;
-	float y_val_;
-	float x_pos_;
-	float y_pos_;
 
-	int width_frame_;
-	int height_frame_;
-
-
-	SDL_Rect frame_clip_[8];
-	Input input_type_;
-	int frame_;
-	int status_;
 
 
 };

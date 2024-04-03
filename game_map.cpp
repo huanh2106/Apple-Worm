@@ -82,39 +82,67 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 
 
 
-void GameMap::DrawMap(SDL_Renderer* screen)
+  void GameMap::DrawMap(SDL_Renderer* screen)
 {
-	int x1 = 0;
-	int x2 = 0;
-	int y1 = 0;
-	int y2 = 0;
-	int map_x = 0;
-	int map_y = 0;
-	map_x = game_map_.start_x / TILE_SIZE;
-	x1 = (game_map_.start_x % TILE_SIZE) * -1;
-	x2 = x1 + SCREEN_WIDTH + (x1 == 0 ? 0 : TILE_SIZE);
-	map_y = game_map_.start_y / TILE_SIZE;
-	y1 = (game_map_.start_y % TILE_SIZE) * -1;
-	y2 = y1 + SCREEN_HEIGHT + (y1 == 0 ? 0 : TILE_SIZE);
 
-	for (int i = map_y; i < MAX_MAP_Y && i * TILE_SIZE < y2; i++)
+	int mapWidth = MAX_MAP_X * TILE_SIZE;
+	int mapHeight = MAX_MAP_Y * TILE_SIZE;
+
+	
+	int x1 = 0;
+	int x2 = SCREEN_WIDTH;
+	int y1 = 0;
+	int y2 = SCREEN_HEIGHT;
+
+	
+	for (int i = 0; i < MAX_MAP_Y; i++)
 	{
-		map_x = game_map_.start_x / TILE_SIZE;
-		for (int j = map_x; j < MAX_MAP_X && j * TILE_SIZE < x2; j++)
+		for (int j = 0; j < MAX_MAP_X; j++)
 		{
 			int val = game_map_.tile[i][j];
 			if (val > 0 && val < MAX_TILES)
 			{
-				int x = x1 + map_x * TILE_SIZE;
-				int y = y1 + map_y * TILE_SIZE;
-				tile_mat[val].SetRect(x, y);
-				SDL_Rect* clip = NULL;
+				int x = j * TILE_SIZE;
+				int y = i * TILE_SIZE;
 				SDL_Rect renderQuad = { x, y, TILE_SIZE, TILE_SIZE };
-				SDL_RenderCopy(screen, tile_mat[val].GetObject(), clip, &renderQuad);
+				SDL_RenderCopy(screen, tile_mat[val].GetObject(), NULL, &renderQuad);
 			}
-			map_x++;
 		}
-		map_y++;
 	}
 }
+  
+/*void GameMap::GenerateApple()
+{
+	int x = 10;
+	int y = 10;
+	while (game_map_.tile[y][x] != CELL_EMPTY)
+	{
+		x = rand() % MAX_MAP_X;
+		y = rand() % MAX_MAP_Y;
+	}
+	game_map_.tile[y][x] = CELL_APPLE;
+}
+void GameMap::setCell(Position p, CellType type)
+{
+	game_map_.tile[p.y][p.x] = type;
+}
 
+void GameMap::DrawApple(SDL_Renderer* screen)
+{
+	for (int i = 0; i < MAX_MAP_Y; i++)
+	{
+		for (int j = 0; j < MAX_MAP_X; j++)
+		{
+			if (game_map_.tile[i][j] == CELL_APPLE)
+			{
+				int x = j * TILE_SIZE;
+				int y = i * TILE_SIZE;
+				tile_mat[1].SetRect(x, y);
+				SDL_Rect* clip = NULL;
+				SDL_Rect renderQuad = { x, y, TILE_SIZE, TILE_SIZE };
+				SDL_RenderCopy(screen, tile_mat[1].GetObject(), clip, &renderQuad);
+			}
+		}
+	}
+}
+*/

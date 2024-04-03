@@ -7,6 +7,9 @@
 #define MAX_TILES 40
 
 
+enum CellType {
+	CELL_EMPTY = 0, CELL_WORM, CELL_APPLE
+};
 class Tilemat : public BaseObject
 
 {
@@ -24,6 +27,12 @@ class GameMap
 		void LoadMap(std::string name);
 		void LoadTiles(SDL_Renderer* screen);
 		void DrawMap(SDL_Renderer* screen);
+		
+		/*void GenerateApple();
+		void setCell(Position p, CellType type);
+		void DrawApple(SDL_Renderer* screen);
+		*/
+
         
 private:
 	Map game_map_;

@@ -6,10 +6,11 @@
 #include<SDL_image.h>
 #include<SDL_mixer.h>
 #include<SDL_ttf.h>
-#include<string>
+
 static SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;
 static SDL_Event g_event;
+static SDL_Surface* g_screen_surface = NULL;
 //screen
 const int SCREEN_WIDTH = 1248;
 const int SCREEN_HEIGHT = 624;
@@ -22,18 +23,34 @@ const int RENDER_DRAW_COLOR = 155;
 #define TILE_SIZE 26
 #define MAX_MAP_X 48
 #define MAX_MAP_Y 24
-typedef struct Input
+
+enum Direction
 {
-	int left_;
-	int right_;
-	int up_;
-	int down_;
+	UP=0, DOWN, LEFT, RIGHT, NONE
+};
+struct Position
+{
+    int x;
+    int y;
+
+    Position(int x_, int y_) : x(x_), y(y_) {}
+
+    Position move(Direction d)
+    {
+        const int dx[] = { 0,0,-1,1 };
+        const int dy[] = { -1,1,0,0 };
+        return Position(x + dx[d], y + dy[d]);
+    }
+
+
+    bool operator==(Position p) {
+        return x == p.x && y == p.y;
+    }
 };
 
 
 
-
-typedef struct Map
+ struct Map
 {
 	int start_x;
 	int start_y;
