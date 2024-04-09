@@ -30,6 +30,9 @@
     <ClCompile Include="Worm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Gallery.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonFunc.h">
@@ -38,10 +41,13 @@
     <ClInclude Include="BaseObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Worm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="game_map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Worm.h">
+    <ClInclude Include="Gallery.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

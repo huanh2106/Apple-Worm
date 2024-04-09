@@ -33,19 +33,16 @@ struct Position
     int x;
     int y;
 
-    Position(int x_, int y_) : x(x_), y(y_) {}
 
-    Position move(Direction d)
-    {
-        const int dx[] = { 0,0,-1,1 };
-        const int dy[] = { -1,1,0,0 };
-        return Position(x + dx[d], y + dy[d]);
-    }
+    Position(int x_, int y_) : x(x_), y(y_) {}
 
 
     bool operator==(Position p) {
         return x == p.x && y == p.y;
     }
+	bool operator!=(Position p) {
+		return x != p.x || y != p.y;
+	}
 };
 
 
@@ -58,6 +55,7 @@ struct Position
 	int max_y;
 	int tile[MAX_MAP_Y][MAX_MAP_X];
 	std::string file_name_;
+    
 };
 
 

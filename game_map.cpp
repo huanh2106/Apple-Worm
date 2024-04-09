@@ -19,14 +19,10 @@ void GameMap::LoadMap(std::string name) {
 		return;
 	}
 
-	
-	std::vector<std::vector<int>> mapData(MAX_MAP_Y, std::vector<int>(MAX_MAP_X, 0));
-
-	
+	int val;
 	for (int i = 0; i < MAX_MAP_Y; i++) {
 		for (int j = 0; j < MAX_MAP_X; j++) {
-			file >> mapData[i][j];
-			int val = mapData[i][j];
+			file >> val;
 			if (val > 0) {
 				if (j > game_map_.max_x) {
 					game_map_.max_x = j;
@@ -35,15 +31,11 @@ void GameMap::LoadMap(std::string name) {
 					game_map_.max_y = i;
 				}
 			}
+			game_map_.tile[i][j] = val;
 		}
 	}
 
 	file.close();
-	for (int i = 0; i < MAX_MAP_Y; i++) {
-		for (int j = 0; j < MAX_MAP_X; j++) {
-			game_map_.tile[i][j] = mapData[i][j];
-		}
-	}
 
 	game_map_.max_x = (game_map_.max_x + 1) * TILE_SIZE;
 	game_map_.max_y = (game_map_.max_y + 1) * TILE_SIZE;
@@ -51,6 +43,7 @@ void GameMap::LoadMap(std::string name) {
 	game_map_.start_y = 0;
 	game_map_.file_name_ = name;
 }
+
 
 
 
@@ -71,7 +64,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 		{
 			continue;
 		}
-		
+		file.close();
 
 		if (!tile_mat[i].LoadImg(fileName, screen))
 		{
@@ -110,7 +103,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 		}
 	}
 }
-  
+ 
 /*void GameMap::GenerateApple()
 {
 	int x = 10;

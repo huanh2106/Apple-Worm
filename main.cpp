@@ -55,27 +55,51 @@ int main(int argc, char* argv[]) {
     LoadBackground();
 
     GameMap game_map;
+
     game_map.LoadMap("map//map01.dat");
     game_map.LoadTiles(g_screen);
-   
-   
-  
- 
+    Worm worm(&game_map);
+    
+    
     bool is_quit = false;
     while (!is_quit) {
         while (SDL_PollEvent(&g_event) != 0) {
             if (g_event.type == SDL_QUIT) {
                 is_quit = true;
             }
-           
+            else if (g_event.type == SDL_KEYDOWN) {
+                switch (g_event.key.keysym.sym) {
+				case SDLK_UP:
+					worm.processUserInput(KEY_UP);
+					break;
+				case SDLK_DOWN:
+					worm.processUserInput(KEY_DOWN);
+					break;
+				case SDLK_LEFT:
+					worm.processUserInput(KEY_LEFT);
+					break;
+				case SDLK_RIGHT:
+					worm.processUserInput(KEY_RIGHT);
+					break;
+				default:
+					break;
+				}
+			}
         }
         SDL_RenderClear(g_screen);
-        g_background.Render(g_screen, NULL);
-        game_map.DrawMap(g_screen);
       
-     
-        SDL_RenderPresent(g_screen);
+        g_background.Render(g_screen, NULL);
+       
+        game_map.DrawMap(g_screen);
+       
+         worm.drawWorm(g_screen);
+         SDL_RenderPresent(g_screen);
+         SDL_Delay(100);
+         Map map_data = game_map.getMap();
+         worm.nextStep(map_data);
+
     }
     close();
+
     return 0;
 }

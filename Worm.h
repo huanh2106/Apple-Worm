@@ -2,14 +2,16 @@
 #define WORM_H_
 #include "CommonFunc.h"
 #include "BaseObject.h"
+#include "game_map.h"
 #include<queue>
-class GameMap;
+
+
 
 enum UserInput {
 	NO_INPUT = 0, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT
 };
-enum CellType {
-	CELL_EMPTY = 0, CELL_WORM, CELL_APPLE, CELL_STONE
+enum CellType{
+	CELL_EMPTY = 0, CELL_WORM=12, CELL_APPLE=13, CELL_STONE=14
 };
 struct WormNode
 {
@@ -24,30 +26,37 @@ struct WormNode
 	
 };
 
-class Worm
+class Worm : public BaseObject 
 {
 	WormNode* head;
     GameMap* map;
-	Direction dir;
+	Direction direction;
 	std::queue<UserInput> inputQueue;
-	 
-	int apple;
+	
+
+	
 public:
 	Worm(GameMap* map);
 	~Worm();	
+	bool LoadImg(std::string path, SDL_Renderer* screen);
 	void processUserInput(UserInput input);
-	void nextStep();
+	void nextStep(Map &map_data);
 	bool checkPosition(Position p);
 	WormNode* getHead() const { return head; }
+	bool CheckToMapDown(Map& map_data);
+    bool CheckToMapUp(Map& map_data);
+	bool CheckToMapLeft(Map& map_data);
+	bool CheckToMapRight(Map& map_data);
 	void setHead(WormNode* h) { head = h; }
-	void drawWorm();
+	void drawWorm(SDL_Renderer* screen);
+	bool CheckToFullWorm(Map& map_data);
+	std::vector<Position> getWormPosition();
+
 	private:
+		float x_val;
+		float y_val;
 		Direction changeDirection(UserInput input);
 		void changePlayGroundState(CellType type);
-
-
-
-
 };
 
 #endif
