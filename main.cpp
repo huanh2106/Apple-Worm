@@ -2,6 +2,7 @@
 #include "CommonFunc.h"
 #include "game_map.h"
 #include"Worm.h"
+#include "Apple.h"
 #include <iostream>
 BaseObject g_background;
 
@@ -59,7 +60,8 @@ int main(int argc, char* argv[]) {
     game_map.LoadMap("map//map01.dat");
     game_map.LoadTiles(g_screen);
     Worm worm(&game_map);
-    
+    Apple apple; 
+    Destination destination;
     
     bool is_quit = false;
     while (!is_quit) {
@@ -90,14 +92,17 @@ int main(int argc, char* argv[]) {
       
         g_background.Render(g_screen, NULL);
        
-        game_map.DrawMap(g_screen);
-       
+        game_map.DrawMap1(g_screen);
+        Map map_data = game_map.getMap();
+        
          worm.drawWorm(g_screen);
+         
+         apple.Draw(g_screen);
+         destination.Draw(g_screen);
+         game_map.DrawMap2(g_screen);
          SDL_RenderPresent(g_screen);
-         SDL_Delay(100);
-         Map map_data = game_map.getMap();
-         worm.nextStep(map_data);
-
+         worm.nextStep(map_data, apple);
+         SDL_Delay(50);
     }
     close();
 

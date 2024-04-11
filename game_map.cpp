@@ -5,7 +5,7 @@
 #include<string>
 #include<fstream>
 #include<vector>
-
+using namespace std;
 Tilemat::Tilemat()
 {
 	rect_.x = 0;
@@ -75,7 +75,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 
 
 
-  void GameMap::DrawMap(SDL_Renderer* screen)
+  void GameMap::DrawMap1(SDL_Renderer* screen)
 {
 
 	int mapWidth = MAX_MAP_X * TILE_SIZE;
@@ -93,7 +93,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 		for (int j = 0; j < MAX_MAP_X; j++)
 		{
 			int val = game_map_.tile[i][j];
-			if (val > 0 && val < MAX_TILES)
+			if (val > 0 && val < MAX_TILES&& val!=9&&val!=2&&val!=6&&val!=4&&val!=3)
 			{
 				int x = j * TILE_SIZE;
 				int y = i * TILE_SIZE;
@@ -102,40 +102,73 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 			}
 		}
 	}
-}
- 
-/*void GameMap::GenerateApple()
-{
-	int x = 10;
-	int y = 10;
-	while (game_map_.tile[y][x] != CELL_EMPTY)
-	{
-		x = rand() % MAX_MAP_X;
-		y = rand() % MAX_MAP_Y;
-	}
-	game_map_.tile[y][x] = CELL_APPLE;
-}
-void GameMap::setCell(Position p, CellType type)
-{
-	game_map_.tile[p.y][p.x] = type;
-}
-
-void GameMap::DrawApple(SDL_Renderer* screen)
-{
+	
 	for (int i = 0; i < MAX_MAP_Y; i++)
 	{
 		for (int j = 0; j < MAX_MAP_X; j++)
 		{
-			if (game_map_.tile[i][j] == CELL_APPLE)
+			int val = game_map_.tile[i][j];
+			if (val== 9||val==3)
 			{
 				int x = j * TILE_SIZE;
 				int y = i * TILE_SIZE;
-				tile_mat[1].SetRect(x, y);
-				SDL_Rect* clip = NULL;
-				SDL_Rect renderQuad = { x, y, TILE_SIZE, TILE_SIZE };
-				SDL_RenderCopy(screen, tile_mat[1].GetObject(), clip, &renderQuad);
+				SDL_Rect renderQuad = { x, y, TILE_SIZE/2, TILE_SIZE };
+				SDL_RenderCopy(screen, tile_mat[val].GetObject(), NULL, &renderQuad);
 			}
 		}
 	}
+
 }
-*/
+  
+  void GameMap::DrawMap2(SDL_Renderer* screen)
+  {
+
+	  int mapWidth = MAX_MAP_X * TILE_SIZE;
+	  int mapHeight = MAX_MAP_Y * TILE_SIZE;
+
+
+	  int x1 = 0;
+	  int x2 = SCREEN_WIDTH;
+	  int y1 = 0;
+	  int y2 = SCREEN_HEIGHT;
+
+
+	  for (int i = 0; i < MAX_MAP_Y; i++)
+	  {
+		  for (int j = 0; j < MAX_MAP_X; j++)
+		  {
+			  int val = game_map_.tile[i][j];
+			  if (val == 2 || val == 6 || val == 4)
+			  {
+				  int x = j * TILE_SIZE;
+				  int y = i * TILE_SIZE;
+				  SDL_Rect renderQuad = { x, y, TILE_SIZE, TILE_SIZE };
+				  SDL_RenderCopy(screen, tile_mat[val].GetObject(), NULL, &renderQuad);
+			  }
+			  if (val == 9)
+			  {
+				  if (!LoadImg("map/09_2.png", screen))
+				  {
+					  cout << "Khong the load hinh anh" << std::endl;
+				  }
+				  int x = j * TILE_SIZE + TILE_SIZE / 2;
+				  int y = i * TILE_SIZE;
+				  SDL_Rect dst = { x, y, TILE_SIZE / 2, TILE_SIZE };
+				  SDL_RenderCopy(screen, p_object, NULL, &dst);
+			  }
+			  if (val == 3)
+			  {
+				  if (!LoadImg("map/03_2.png", screen))
+				  {
+					  cout << "Khong the load hinh anh" << std::endl;
+				  }
+				  int x = j * TILE_SIZE + TILE_SIZE / 2;
+				  int y = i * TILE_SIZE;
+				  SDL_Rect dst = { x, y, TILE_SIZE / 2, TILE_SIZE };
+				  SDL_RenderCopy(screen, p_object, NULL, &dst);
+			  }
+
+		  }
+	  }
+
+  }

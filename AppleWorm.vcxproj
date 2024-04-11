@@ -130,17 +130,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Apple.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="game_map.cpp" />
-    <ClCompile Include="Gallery.cpp" />
     <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Apple.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="CommonFunc.h" />
-    <ClInclude Include="Gallery.h" />
     <ClInclude Include="game_map.h" />
     <ClInclude Include="Worm.h" />
   </ItemGroup>

@@ -1,4 +1,6 @@
 #include "BaseObject.h"
+#include<iostream>
+using namespace std;
 BaseObject::BaseObject()
 {
 	p_object = NULL;
@@ -16,7 +18,7 @@ bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
 	SDL_Texture* new_texture = NULL;
 	SDL_Surface* load_surface = IMG_Load(path.c_str());
 	if (load_surface != NULL)
-	{   
+	{   cout<<"load thanh cong";
 		SDL_SetColorKey(load_surface, SDL_TRUE, SDL_MapRGB(load_surface->format, 167, 175, 180));
 		new_texture = SDL_CreateTextureFromSurface(screen, load_surface);
 		if (new_texture != NULL)

@@ -30,7 +30,7 @@
     <ClCompile Include="Worm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Gallery.cpp">
+    <ClCompile Include="Apple.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="game_map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Gallery.h">
+    <ClInclude Include="Apple.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

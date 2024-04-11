@@ -17,14 +17,15 @@ class Tilemat : public BaseObject
 		
 };
 
-class GameMap
+class GameMap : public BaseObject
 {
 	public :
 		GameMap() {;}
 		~GameMap() {;}
 		void LoadMap(std::string name);
 		void LoadTiles(SDL_Renderer* screen);
-		void DrawMap(SDL_Renderer* screen);
+		void DrawMap1(SDL_Renderer* screen);
+		void DrawMap2(SDL_Renderer* screen);
 		Map getMap() const{ return game_map_; }
 		/*void GenerateApple();
 		void setCell(Position p, CellType type);
