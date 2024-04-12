@@ -2,9 +2,7 @@
 #include"CommonFunc.h"
 #include<iostream>
 using namespace std;
-#define APPLE_POS_X 10
-#define APPLE_POS_Y 8
-#define APPLE_SIZE 52
+
 Apple::Apple() : pos(Position(APPLE_POS_X, APPLE_POS_Y)) {}
 Apple::~Apple()
 {

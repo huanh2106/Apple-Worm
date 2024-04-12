@@ -93,7 +93,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 		for (int j = 0; j < MAX_MAP_X; j++)
 		{
 			int val = game_map_.tile[i][j];
-			if (val > 0 && val < MAX_TILES&& val!=9&&val!=2&&val!=6&&val!=4&&val!=3)
+			if (val > 0 && val < MAX_TILES&& val!=9&&val!=2&&val!=6&&val!=4&&val!=3&&val!=8)
 			{
 				int x = j * TILE_SIZE;
 				int y = i * TILE_SIZE;
@@ -138,7 +138,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 		  for (int j = 0; j < MAX_MAP_X; j++)
 		  {
 			  int val = game_map_.tile[i][j];
-			  if (val == 2 || val == 6 || val == 4)
+			  if (val == 2 || val == 6 || val == 4|| val==8)
 			  {
 				  int x = j * TILE_SIZE;
 				  int y = i * TILE_SIZE;

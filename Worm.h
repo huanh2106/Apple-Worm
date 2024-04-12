@@ -27,6 +27,19 @@ struct WormNode
 	
 };
 
+class Destination : public BaseObject
+{
+	Position pos;
+public:
+	Destination();
+	~Destination() {}
+	Position getPos() const { return pos; }
+	void setPos(const Position& newPos) { pos = newPos; }
+	bool LoadImg(std::string path, SDL_Renderer* screen);
+	void Draw(SDL_Renderer* screen);
+
+
+};
 class Worm : public BaseObject 
 {
 	WormNode* head;
@@ -49,9 +62,18 @@ public:
 	bool CheckToMapLeft(Map& map_data);
 	bool CheckToMapRight(Map& map_data);
 	bool checkToApple(Apple& apple);
+	void drawCompleteLv(SDL_Renderer* screen);
+	bool checkToDestination(Destination& destination);
 	void setHead(WormNode* h) { head = h; }
+	void SetWorm(const Position &p) {
+		head = new WormNode(Position(p.x, p.y));
+		head->next = new WormNode(Position(p.x-1,p.y));
+		head->next->next = new WormNode(Position(p.x-2, p.y));
+	}
+	
 	void drawWorm(SDL_Renderer* screen);
 	bool CheckToFullWorm(Map& map_data, Apple &apple);
+	
 	bool eatedapple = false;
 	std::vector<Position> getWormPosition();
 
@@ -60,17 +82,7 @@ public:
 		void changePlayGroundState(CellType type);
 };
 
-class Destination : public BaseObject
-{
-	Position pos;
-	public:
-		Destination();
-		~Destination() {}	
-		Position getPos() const { return pos; }
-		bool LoadImg(std::string path, SDL_Renderer* screen);
-		void Draw(SDL_Renderer* screen);
 
-};
 #endif
 
 // Path: AppleWorm/Worm.cpp

@@ -34,7 +34,9 @@ Worm::Worm(GameMap* map) : map(map) {
 
 }
 
+
 Worm::~Worm() {}
+
 void Worm::processUserInput(UserInput input)
 {
 	inputQueue.push(input);
@@ -127,6 +129,7 @@ void Worm::nextStep(Map& map_data, Apple& apple)
 							apple.removeApple();
 							eatedapple = true;
 						}
+						
 						break;
 					}
 					break;
@@ -148,6 +151,7 @@ void Worm::nextStep(Map& map_data, Apple& apple)
 							apple.removeApple();
 							eatedapple = true;
 						}
+						
 						break;
 					}
 					break;
@@ -167,6 +171,7 @@ void Worm::nextStep(Map& map_data, Apple& apple)
 							apple.removeApple();
 							eatedapple = true;
 						}
+					
 						break;
 					}
 					break;
@@ -187,6 +192,7 @@ void Worm::nextStep(Map& map_data, Apple& apple)
 							apple.removeApple();
 							eatedapple = true;
 						}
+						
 						break;
 					}
 					break;
@@ -349,7 +355,7 @@ void Worm::drawWorm(SDL_Renderer* screen) {
 		{
 
 			cout << "Khong the load hinh anh" << endl;
-			cout << imgPath << endl;
+			
 		}
 		rect = { pos[i].x * WORM_CELL + TILE_SIZE - 11, pos[i].y * WORM_CELL - 14, WORM_CELL, WORM_CELL };
 		SDL_RenderCopy(screen, p_object, NULL, &rect);
@@ -487,7 +493,7 @@ bool Worm::CheckToMapRight(Map& map_data)
 }
 bool Worm::CheckToFullWorm(Map& map_data, Apple& apple)
 {
-	int i = 1;
+	
 	WormNode* cur = head;
 	while (cur != NULL)
 	{
@@ -497,9 +503,6 @@ bool Worm::CheckToFullWorm(Map& map_data, Apple& apple)
 		int y2 = (cur->pos.y * WORM_CELL + WORM_CELL) / TILE_SIZE;
 
 
-		cout << map_data.tile[y1][x1] << " " << map_data.tile[y1][x2] << endl;
-		cout << map_data.tile[y2][x1] << " " << map_data.tile[y2][x2] << endl;
-
 		if (map_data.tile[y1][x1] != 0 || map_data.tile[y2][x2] != 0 ||
 			map_data.tile[y1][x2] != 0 || map_data.tile[y2][x1] != 0 || (cur->pos.y + 1 == apple.getPos().y && cur->pos.x == apple.getPos().x))
 		{
@@ -508,7 +511,7 @@ bool Worm::CheckToFullWorm(Map& map_data, Apple& apple)
 
 
 		cur = cur->next;
-		i++;
+		
 	}
 
 	return true; // Không có va chạm, trả về true
@@ -540,5 +543,25 @@ void Destination::Draw(SDL_Renderer* screen)
 		cout << "Khong the load hinh anh" << endl;
 	}
 	SDL_Rect rect = { pos.x * WORM_CELL + TILE_SIZE - 6, pos.y * WORM_CELL - 10, WORM_CELL, WORM_CELL - 5 };
+	SDL_RenderCopy(screen, p_object, NULL, &rect);
+}
+bool Worm::checkToDestination(Destination& destination)
+{
+	
+	WormNode* cur = head;
+	if (cur->pos == destination.getPos())
+	{
+		cout << "huy";
+		return true;
+	}
+	return false;
+}
+void Worm::drawCompleteLv(SDL_Renderer* screen)
+{
+	if (!LoadImg("image//completeLv.png", screen))
+	{
+		cout << "Khong the load hinh anh" << endl;
+	}
+	SDL_Rect rect = { 200, 5, 854, 540};
 	SDL_RenderCopy(screen, p_object, NULL, &rect);
 }

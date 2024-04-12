@@ -1,6 +1,7 @@
 C:\UET\AppleWorm\AppleWorm\Apple.cpp;C:\UET\AppleWorm\AppleWorm\x64\Debug\Apple.obj
 C:\UET\AppleWorm\AppleWorm\BaseObject.cpp;C:\UET\AppleWorm\AppleWorm\x64\Debug\BaseObject.obj
 C:\UET\AppleWorm\AppleWorm\CommonFunc.cpp;C:\UET\AppleWorm\AppleWorm\x64\Debug\CommonFunc.obj
+C:\UET\AppleWorm\AppleWorm\Game_mode.cpp;C:\UET\AppleWorm\AppleWorm\x64\Debug\Game_mode.obj
 C:\UET\AppleWorm\AppleWorm\main.cpp;C:\UET\AppleWorm\AppleWorm\x64\Debug\main.obj
 C:\UET\AppleWorm\AppleWorm\game_map.cpp;C:\UET\AppleWorm\AppleWorm\x64\Debug\game_map.obj
 C:\UET\AppleWorm\AppleWorm\Worm.cpp;C:\UET\AppleWorm\AppleWorm\x64\Debug\Worm.obj
