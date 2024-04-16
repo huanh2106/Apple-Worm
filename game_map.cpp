@@ -1,6 +1,4 @@
 #include"game_map.h"
-#include"BaseObject.h"
-#include"CommonFunc.h"
 #include<iostream>
 #include<string>
 #include<fstream>
@@ -99,6 +97,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 				int y = i * TILE_SIZE;
 				SDL_Rect renderQuad = { x, y, TILE_SIZE, TILE_SIZE };
 				SDL_RenderCopy(screen, tile_mat[val].GetObject(), NULL, &renderQuad);
+				SDL_DestroyTexture(p_object);
 			}
 		}
 	}
@@ -114,6 +113,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 				int y = i * TILE_SIZE;
 				SDL_Rect renderQuad = { x, y, TILE_SIZE/2, TILE_SIZE };
 				SDL_RenderCopy(screen, tile_mat[val].GetObject(), NULL, &renderQuad);
+				SDL_DestroyTexture(p_object);
 			}
 		}
 	}
@@ -144,6 +144,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 				  int y = i * TILE_SIZE;
 				  SDL_Rect renderQuad = { x, y, TILE_SIZE, TILE_SIZE };
 				  SDL_RenderCopy(screen, tile_mat[val].GetObject(), NULL, &renderQuad);
+				  SDL_DestroyTexture(p_object);
 			  }
 			  if (val == 9)
 			  {
@@ -155,6 +156,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 				  int y = i * TILE_SIZE;
 				  SDL_Rect dst = { x, y, TILE_SIZE / 2, TILE_SIZE };
 				  SDL_RenderCopy(screen, p_object, NULL, &dst);
+				  SDL_DestroyTexture(p_object);
 			  }
 			  if (val == 3)
 			  {
@@ -166,6 +168,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 				  int y = i * TILE_SIZE;
 				  SDL_Rect dst = { x, y, TILE_SIZE / 2, TILE_SIZE };
 				  SDL_RenderCopy(screen, p_object, NULL, &dst);
+				  SDL_DestroyTexture(p_object);
 			  }
 
 		  }

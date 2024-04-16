@@ -1,7 +1,6 @@
 #pragma once
 #ifndef APPLE_H
 #define APPLE_H
-#include "CommonFunc.h"
 #include "BaseObject.h"
 #define APPLE_POS_X 10
 #define APPLE_POS_Y 8

@@ -1,6 +1,9 @@
+#pragma once
 #ifndef BASE_OBJECT_H_
 #define BASE_OBJECT_H_
 #include "CommonFunc.h"
+#include<iostream>
+using namespace std;
 class BaseObject
 {
 public:
@@ -17,5 +20,6 @@ protected:
 	SDL_Rect rect_;
 	SDL_Texture* p_object;
 };
+
 #endif // BASE_OBJECT_H_
 // Path: AppleWorm/BaseObject.cpp

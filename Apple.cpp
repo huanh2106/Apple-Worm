@@ -6,6 +6,7 @@ using namespace std;
 Apple::Apple() : pos(Position(APPLE_POS_X, APPLE_POS_Y)) {}
 Apple::~Apple()
 {
+	
 }
 bool Apple::LoadImg(std::string path, SDL_Renderer* screen)
 {
@@ -29,5 +30,6 @@ void Apple::Draw(SDL_Renderer* screen)
 	}
 
 	SDL_RenderCopy(screen, p_object, NULL, &rect);
+	SDL_DestroyTexture(p_object);
 }
 // Path: AppleWorm/BaseObject.cpp

@@ -1,5 +1,10 @@
-﻿  Game_mode.cpp
+﻿  Apple.cpp
+  BaseObject.cpp
+  CommonFunc.cpp
+  Game_mode.cpp
+  Stone.cpp
   Worm.cpp
+  game_map.cpp
   main.cpp
   Generating Code...
   AppleWorm.vcxproj -> C:\UET\AppleWorm\x64\Debug\AppleWorm.exe

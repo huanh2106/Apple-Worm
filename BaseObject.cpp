@@ -33,8 +33,9 @@ bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
 }
 void BaseObject::Render(SDL_Renderer* des, const SDL_Rect* clip)
 {
-	SDL_Rect renderquad = { rect_.x, rect_.y, rect_.w, rect_.h };
+	SDL_Rect renderquad = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	SDL_RenderCopy(des, p_object, clip, &renderquad);
+	
 }
 void BaseObject::Free()
 {
