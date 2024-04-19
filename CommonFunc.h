@@ -16,6 +16,7 @@ static Mix_Chunk* g_worm = NULL;
 static Mix_Chunk* g_eatapple = NULL;
 static Mix_Chunk* g_next = NULL;
 static Mix_Chunk* g_wineffect = NULL;
+static TTF_Font* gFont = NULL;
 extern bool g_effectOn;
 //screen
 const int SCREEN_WIDTH = 1248;

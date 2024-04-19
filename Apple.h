@@ -15,7 +15,6 @@ class Apple : public BaseObject
 	void setPos(Position p) { pos = p; }
 	Position getPos() const { return pos; }
 	void  removeApple() { pos = Position(-1, -1); }
-	void setApple() { pos = Position(APPLE_POS_X, APPLE_POS_Y); }
 	void Draw(SDL_Renderer* screen);
 	private:
 		Position pos;

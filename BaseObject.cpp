@@ -47,3 +47,39 @@ void BaseObject::Free()
 		rect_.h = 0;
 	}
 }
+bool BaseObject::loadFromRenderedText(SDL_Renderer* screen,TTF_Font* gFont, string textureText, SDL_Color textColor)
+{
+	Free();
+	SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, textureText.c_str(), textColor);
+	if (textSurface == NULL)
+	{
+		cout << "Unable to render text surface! SDL_ttf Error" << endl;
+	}
+	else
+	{
+		
+		p_object = SDL_CreateTextureFromSurface(screen, textSurface);
+		if (p_object == NULL)
+		{
+			cout << "Co loi o ham loadFromRenderedTex " << endl;
+		}
+		else
+		{
+			
+			rect_.w = textSurface->w;
+			rect_.h = textSurface->h;
+		}
+
+		
+		SDL_FreeSurface(textSurface);
+	}
+
+	
+	return p_object!= NULL;
+}
+void BaseObject::RenderText(SDL_Renderer* des)
+{
+	SDL_Rect rect{ 580, 68, rect_.w, rect_.h };
+	SDL_RenderCopy(des, p_object, NULL, &rect);
+
+}

@@ -14,6 +14,8 @@ public:
 		SDL_Texture* GetObject() const { return p_object; }
 		virtual bool LoadImg(std::string path, SDL_Renderer* screen);
 		void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
+		void RenderText(SDL_Renderer* des);
+		bool loadFromRenderedText(SDL_Renderer* screen,TTF_Font* gFont,string textureText, SDL_Color textColor);
 		void Free();
 	
 protected:

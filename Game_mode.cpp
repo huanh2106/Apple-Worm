@@ -6,17 +6,18 @@ using namespace std;
 #define playW 160
 #define playH 110
 BaseObject g_background;
+BaseObject g_text;
 bool g_soundOn = true;
 
 void GameMode::initData() {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0) {
-		std::cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << std::endl;
+		cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
 	g_window = SDL_CreateWindow("Apple Worm by Huy", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (g_window == nullptr) {
-		std::cout << "Window could not be created! SDL Error: " << SDL_GetError() << std::endl;
+		cout << "Window could not be created! SDL Error: " << SDL_GetError() << std::endl;
 		exit(EXIT_FAILURE);
 	}
 	//SDL_Surface* iconSurface = IMG_Load("image//icon.png");
@@ -24,7 +25,7 @@ void GameMode::initData() {
 	//SDL_FreeSurface(iconSurface);
 	g_screen = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 	if (g_screen == nullptr) {
-		std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << std::endl;
+		cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
@@ -37,7 +38,12 @@ void GameMode::initData() {
 	}
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
 	{
-		std::cout<<"Loi load Audio: "<<Mix_GetError()<<std::endl;
+		cout<<"Loi load Audio: "<<Mix_GetError()<<std::endl;
+		exit(EXIT_FAILURE);
+	}
+	if (TTF_Init() == -1)
+	{
+		cout << " Loi khoi tao text" << endl;
 		exit(EXIT_FAILURE);
 	}
 
@@ -45,10 +51,29 @@ void GameMode::initData() {
 
 bool LoadBackground() {
 	if (!g_background.LoadImg("image//background.png", g_screen)) {
-		std::cout << "Failed to load background image!" << std::endl;
+		cout << "Failed to load background image!" << std::endl;
 		return false;
 	}
 	
+	return true;
+}
+bool LoadText(string text)
+{
+	gFont = TTF_OpenFont("verdanab.ttf", 24);
+	if (gFont == NULL)
+	{
+		cout << "Co loi roi :)))"<<endl;
+		return false;
+	}
+	else
+	{
+		SDL_Color textColor = { 178, 34, 34 };
+		if (!g_text.loadFromRenderedText(g_screen, gFont , text, textColor))
+		{
+			cout << " loi o loadText" << endl;
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -75,10 +100,14 @@ bool LoadMusic() {
 
 void close() {
 	g_background.Free();
+	g_text.Free();
+	TTF_CloseFont(gFont);
+	gFont = NULL;
 	Mix_FreeChunk(g_worm);
 	Mix_FreeMusic(g_music);
 	SDL_DestroyRenderer(g_screen);
 	SDL_DestroyWindow(g_window);
+	TTF_Quit();
 	IMG_Quit();
 	Mix_Quit();
 	SDL_Quit();
@@ -95,6 +124,7 @@ GameMode::~GameMode()
 void GameMode::run(SDL_Event& e)
 {
 	LoadMusic();
+	
 	bool quit = false;
 	while (!quit)
 	{
@@ -131,6 +161,14 @@ void GameMode::run(SDL_Event& e)
 		else if (state == Lv2)
 		{
 			handleLv2(e, quit);
+		}
+		else if (state == Lv3)
+		{
+			handleLv3(e, quit);
+		}
+		else if (state == Lv4)
+		{
+			handleLv4(e, quit);
 		}
 	}
 	close();
@@ -231,7 +269,8 @@ void GameMode::handleLv1(SDL_Event& e, bool& quit)
 {
 	
 	LoadBackground();
-
+	string lv = "Level 1";
+	LoadText(lv);
 	GameMap game_map;
     game_map.LoadMap("map//map01.dat");
 	game_map.LoadTiles(g_screen);
@@ -248,30 +287,115 @@ void GameMode::handleLv1(SDL_Event& e, bool& quit)
 	destination.setPos(newPos);
 	Stone stone;
 	stone.setPos(newPosStone);
-	Playing(quit, e, worm, newPosWorm, destination, apple, stone, game_map);
+	GameState nextgame = Lv2;
+	Playing(quit, e, worm, newPosWorm, destination, apple,newPosApple, stone, game_map, nextgame);
 	Mix_FreeChunk(g_worm);
 }
+
 void GameMode::handleLv2(SDL_Event& e, bool& quit)
 {
+
 	LoadBackground();
-	
+	string lv = "Level 2";
+	LoadText(lv);
 	GameMap game_map;
 	game_map.LoadMap("map//map02.dat");
 	game_map.LoadTiles(g_screen);
-	Position newPosWorm(9, 4);
+	Position newPosWorm(9, 7);
+	Position newPosApple(6, 5);
 	Position newPosStone(-1, -1);
 	Worm worm(&game_map);
 	worm.LoadMusic();
 	worm.SetWorm(newPosWorm);
 	Apple apple;
+	apple.setPos(newPosApple);
+	Destination destination;
+	Position newPos(13, 4);
+	destination.setPos(newPos);
+	Stone stone;
+	stone.setPos(newPosStone);
+	GameState nextgame = Lv3;
+	Playing(quit, e, worm, newPosWorm, destination, apple, newPosApple, stone, game_map, nextgame);
+	Mix_FreeChunk(g_worm);
+}
+void GameMode::handleLv3(SDL_Event& e, bool& quit)
+{
+
+	LoadBackground();
+	string lv = "Level 3";
+	LoadText(lv);
+	GameMap game_map;
+	game_map.LoadMap("map//map03.dat");
+	game_map.LoadTiles(g_screen);
+	Position newPosWorm(9, 7);
+	Position newPosApple(11, 6);
+	Position newPosStone(-1, -1);
+	Worm worm(&game_map);
+	worm.LoadMusic();
+	worm.SetWorm(newPosWorm);
+	Apple apple;
+	apple.setPos(newPosApple);
+	Destination destination;
+	Position newPos(15, 7);
+	destination.setPos(newPos);
+	Stone stone;
+	stone.setPos(newPosStone);
+	GameState nextgame = Lv4;
+	Playing(quit, e, worm, newPosWorm, destination, apple,newPosApple, stone, game_map, nextgame);
+	Mix_FreeChunk(g_worm);
+}
+void GameMode::handleLv4(SDL_Event& e, bool& quit)
+{
+
+	LoadBackground();
+	string lv = "Level 4";
+	LoadText(lv);
+	GameMap game_map;
+	game_map.LoadMap("map//map04.dat");
+	game_map.LoadTiles(g_screen);
+	Position newPosWorm(9, 7);
+	Position newPosApple(12, 6);
+	Position newPosStone(-1, -1);
+	Worm worm(&game_map);
+	worm.LoadMusic();
+	worm.SetWorm(newPosWorm);
+	Apple apple;
+	apple.setPos(newPosApple);
+	Destination destination;
+	Position newPos(15, 4);
+	destination.setPos(newPos);
+	Stone stone;
+	stone.setPos(newPosStone);
+	GameState nextgame = Lv4;
+	Playing(quit, e, worm, newPosWorm, destination, apple, newPosApple, stone, game_map, nextgame);
+	Mix_FreeChunk(g_worm);
+}
+void GameMode::handleLv9(SDL_Event& e, bool& quit)
+{
+	LoadBackground();
+	string lv = "Level 9";
+	LoadText(lv);
+	GameMap game_map;
+	game_map.LoadMap("map//map09.dat");
+	game_map.LoadTiles(g_screen);
+	Position newPosWorm(9, 4);
+	Position newPosStone(-1, -1);
+	Position newPosApple(10, 8);
+	Worm worm(&game_map);
+	worm.LoadMusic();
+	worm.SetWorm(newPosWorm);
+	Apple apple;
+
 	Stone stone;
 	stone.setPos(newPosStone);
 	Destination destination;
 	Position newPos(14, 4);
 	destination.setPos(newPos);
-    Playing(quit, e, worm, newPosWorm, destination, apple, stone, game_map);
+	GameState nextgame = Lv4;
+    Playing(quit, e, worm, newPosWorm, destination, apple,newPosApple, stone, game_map,nextgame);
 	Mix_FreeChunk(g_worm);
 }
+
 void GameMode::drawChooseLV(SDL_Renderer* screen)
 {
 	if (!LoadImg("image//chooselv.png", screen))
@@ -328,6 +452,20 @@ void GameMode::handleChooseLV(SDL_Event& e, bool& quit)
 					Mix_PlayChannel(-1, g_next, 0);
 				}
 			}
+			if (mouseX >= 585 && mouseX <= 675 && mouseY >= 134 && mouseY <= 210) {
+				state = Lv3;
+				if (g_effectOn)
+				{
+					Mix_PlayChannel(-1, g_next, 0);
+				}
+			}
+			if (mouseX >= 190 && mouseX <= 265 && mouseY >= 247 && mouseY <= 380) {
+				state = Menu;
+				if (g_effectOn)
+				{
+					Mix_PlayChannel(-1, g_next, 0);
+				}
+			}
 			if (mouseX >= 950 && mouseX <= 1000 && mouseY >= 20 && mouseY <= 70) {
 				g_effectOn = !g_effectOn;
 			}
@@ -378,7 +516,7 @@ void GameMode::MenuFinish( GameState lv, SDL_Event &e, bool &quit, bool &q)
 
 	}
 }
-void GameMode::Playing(bool &quit, SDL_Event& e, Worm &worm, Position &newPosWorm, Destination &destination,Apple &apple, Stone &stone, GameMap &game_map)
+void GameMode::Playing(bool &quit, SDL_Event& e, Worm &worm, Position &newPosWorm, Destination &destination,Apple &apple, Position &NewPosApple, Stone &stone, GameMap &game_map, GameState Nextlv)
 {
 	bool q = false;
 	bool wineffectPlayed = false;
@@ -417,7 +555,7 @@ void GameMode::Playing(bool &quit, SDL_Event& e, Worm &worm, Position &newPosWor
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
 				if (mouseX >= 130 && mouseX <= 180 && mouseY >= 20 && mouseY <= 70) {
 					worm.SetWorm(newPosWorm);
-					apple.setApple();
+					apple.setPos(NewPosApple);
 
 				}
 				if (mouseX >= 1020 && mouseX <= 1070 && mouseY >= 20 && mouseY <= 70) {
@@ -445,6 +583,7 @@ void GameMode::Playing(bool &quit, SDL_Event& e, Worm &worm, Position &newPosWor
 		SDL_RenderClear(g_screen);
 
 		g_background.Render(g_screen, NULL);
+		g_text.RenderText(g_screen);
 		if (g_effectOn)
 		{
 			drawIconEffectOn(g_screen);
@@ -479,7 +618,7 @@ void GameMode::Playing(bool &quit, SDL_Event& e, Worm &worm, Position &newPosWor
 			}
 			worm.drawCompleteLv(g_screen);
 
-			MenuFinish(Lv2, e, quit, q);
+			MenuFinish(Nextlv, e, quit, q);
 
 		}
 		else
