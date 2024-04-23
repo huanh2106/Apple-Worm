@@ -2,8 +2,8 @@
 #ifndef APPLE_H
 #define APPLE_H
 #include "BaseObject.h"
-#define APPLE_POS_X 10
-#define APPLE_POS_Y 8
+#define APPLE_POS_X -1
+#define APPLE_POS_Y -1
 #define APPLE_SIZE 52
 class Apple : public BaseObject
 {

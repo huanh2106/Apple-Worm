@@ -72,19 +72,22 @@ Direction Worm::changeDirection(UserInput input)
 	return direction;
 }
 //thuc hien buoc tiep theo cua con sau
-void Worm::nextStep(Map& map_data, Apple& apple, Stone &stone)
-{
-	if (CheckToFullWorm(map_data, apple, stone))
+void Worm::nextStep(Map& map_data, vector<Apple>& apples, vector<Stone>& stones)
+{   
+	if (CheckToFullWorm(map_data, apples, stones))
 	{
 		WormNode* cur = head;
 		while (cur != NULL)
 		{
+			
+			if(cur->pos.y<24)
 			cur->pos.y += SPEED;
 			cur = cur->next;
+			
 
 		}
 	}
-	
+
 	else {
 		if (distanceMoved < WORM_CELL) {
 			static bool eventProcessed = false; // Đánh dấu xem sự kiện đã được xử lý chưa
@@ -112,30 +115,38 @@ void Worm::nextStep(Map& map_data, Apple& apple, Stone &stone)
 					break;
 
 				}
-				
-				
+
+
 				else {
 					if (checkPosition(Position(head->pos.x, head->pos.y - 1))) {
 						head->pos.y -= SPEED;
 						if (g_effectOn) {
 							Mix_PlayChannel(-1, g_worm, 0);
 						}
-						if (checkToApple(apple))
+						for (size_t i = 0; i < apples.size(); i++)
 						{
-							if (g_effectOn)
+							if (checkToApple(apples[i]))
 							{
-								Mix_PlayChannel(-1, g_eatapple, 0);
+								if (g_effectOn)
+								{
+									Mix_PlayChannel(-1, g_eatapple, 0);
+								}
+								head->pos = oldHeadPosition;
+								head = WormNode::insertHead(head, apples[i].getPos());
+								apples[i].removeApple();
+								eatedapple = true;
 							}
-							head->pos = oldHeadPosition;
-							head = WormNode::insertHead(head, apple.getPos());
-							apple.removeApple();
-							eatedapple = true;
 						}
-						if (checkToStone(stone))
-						{
-							head->pos.y += SPEED;
+						for (size_t i = 0; i < stones.size(); i++) {
+							if (checkToStone(stones[i]))
+							{
+							
+									head->pos.y += SPEED;
+								
+								
+							}
 						}
-						
+
 						break;
 					}
 					break;
@@ -146,7 +157,7 @@ void Worm::nextStep(Map& map_data, Apple& apple, Stone &stone)
 				{
 					break;
 				}
-				
+
 				else {
 					if (checkPosition(Position(head->pos.x, head->pos.y + 1)))
 					{
@@ -154,20 +165,28 @@ void Worm::nextStep(Map& map_data, Apple& apple, Stone &stone)
 						if (g_effectOn) {
 							Mix_PlayChannel(-1, g_worm, 0);
 						}
-						if (checkToApple(apple))
+						for (size_t i = 0; i < apples.size(); i++)
 						{
-							if (g_effectOn)
+							if (checkToApple(apples[i]))
 							{
-								Mix_PlayChannel(-1, g_eatapple, 0);
+								if (g_effectOn)
+								{
+									Mix_PlayChannel(-1, g_eatapple, 0);
+								}
+								head->pos = oldHeadPosition;
+								head = WormNode::insertHead(head, apples[i].getPos());
+								apples[i].removeApple();
+								eatedapple = true;
 							}
-							head->pos = oldHeadPosition;
-							head = WormNode::insertHead(head, apple.getPos());
-							apple.removeApple();
-							eatedapple = true;
 						}
-						if (checkToStone(stone))
-						{
-							head->pos.y -= SPEED;
+						for (size_t i = 0; i < stones.size(); i++) {
+							if (checkToStone(stones[i]))
+							{
+							
+									head->pos.y -= SPEED;
+								
+						
+							}
 						}
 						break;
 					}
@@ -185,29 +204,39 @@ void Worm::nextStep(Map& map_data, Apple& apple, Stone &stone)
 						if (g_effectOn) {
 							Mix_PlayChannel(-1, g_worm, 0);
 						}
-						if (checkToApple(apple))
+						for (size_t i = 0; i < apples.size(); i++)
 						{
-							if (g_effectOn)
+							if (checkToApple(apples[i]))
 							{
-								Mix_PlayChannel(-1, g_eatapple, 0);
-							}
-							head->pos = oldHeadPosition;
-							head = WormNode::insertHead(head, apple.getPos());
-							apple.removeApple();
-							eatedapple = true;
-						}
-						if (checkToStone(stone))
-						{
-							if (stone.StoneCheckToLeftAndRight(map_data))
-							{
-								head->pos.x += SPEED;
-							}
-							else
-							{
-								stone.DirLeft();
+								if (g_effectOn)
+								{
+									Mix_PlayChannel(-1, g_eatapple, 0);
+								}
+								head->pos = oldHeadPosition;
+								head = WormNode::insertHead(head, apples[i].getPos());
+								apples[i].removeApple();
+								eatedapple = true;
 							}
 						}
-					
+						for (size_t i = 0; i < stones.size(); i++) {
+								if (checkToStone(stones[i]))
+							{  
+									for (size_t j = 0; j < stones.size(); j++) {
+
+										if (stones[i].StoneCheckToLeftAndRight(map_data, stones[j]))
+										{
+											head->pos.x += SPEED;
+											break;
+										}
+
+									}
+								stones[i].DirLeft();
+											
+										
+									
+							}
+						}
+
 						break;
 					}
 					break;
@@ -217,7 +246,7 @@ void Worm::nextStep(Map& map_data, Apple& apple, Stone &stone)
 				{
 					break;
 				}
-				
+
 				else {
 					if (checkPosition(Position(head->pos.x + 1, head->pos.y))) {
 
@@ -225,30 +254,41 @@ void Worm::nextStep(Map& map_data, Apple& apple, Stone &stone)
 						if (g_effectOn) {
 							Mix_PlayChannel(-1, g_worm, 0);
 						}
-						if (checkToApple(apple))
+						for (size_t i = 0; i < apples.size(); i++)
 						{
-							if (g_effectOn)
+							if (checkToApple(apples[i]))
 							{
-								Mix_PlayChannel(-1, g_eatapple, 0);
-						    }
-							head->pos = oldHeadPosition;
-							head = WormNode::insertHead(head, apple.getPos());
-							apple.removeApple();
-							eatedapple = true;
+								if (g_effectOn)
+								{
+									Mix_PlayChannel(-1, g_eatapple, 0);
+								}
+								head->pos = oldHeadPosition;
+								head = WormNode::insertHead(head, apples[i].getPos());
+								apples[i].removeApple();
+								eatedapple = true;
+							}
 						}
+						for (size_t i = 0; i < stones.size(); i++) {
+							if (checkToStone(stones[i]))
+							{
+								for (size_t j = 0; j < stones.size(); j++) {
+
+									if (stones[i].StoneCheckToLeftAndRight(map_data, stones[j]))
+									{
+										head->pos.x -= SPEED;
+										break;
+									}
+								}
+										
+									
+							stones[i].DirRight();
+										
+									
+								
+							}
+						}
+							break;
 						
-						if (checkToStone(stone))
-						{
-							if (stone.StoneCheckToLeftAndRight(map_data))
-							{
-								head->pos.x -= SPEED;
-							}
-							else
-							{
-								stone.DirRight();
-							}
-						}
-						break;
 					}
 					break;
 				}
@@ -279,8 +319,8 @@ void Worm::nextStep(Map& map_data, Apple& apple, Stone &stone)
 						break;
 					}
 				}
-				
-				
+
+
 			}
 
 		}
@@ -305,60 +345,64 @@ bool Worm::LoadImg(std::string path, SDL_Renderer* screen)
 	else {
 		cout << "Khong the load hinh anh" << endl;
 	}
-	
+
 	return ret;
 }
 //ve con sau
-void Worm::drawWorm(SDL_Renderer* screen, Apple apple) {
+void Worm::drawWorm(SDL_Renderer* screen, vector<Apple>& apples) {
 	vector<Position> pos = getWormPosition();
 	SDL_Rect rect;
-	
+	string imgPath;
 	for (size_t i = 0; i < pos.size(); i++)
 	{
-		string imgPath;
+
 		if (i == 0)
 		{
-			if (pos[i].x + 1 == apple.getPos().x && pos[i].y == apple.getPos().y || pos[i].x - 1 == apple.getPos().x && pos[i].y == apple.getPos().y || pos[i].x == apple.getPos().x && pos[i].y - 1 == apple.getPos().y || pos[i].x == apple.getPos().x && pos[i].y + 1 == apple.getPos().y)
-			{
-				if (pos[i].y < pos[i + 1].y)
+			for (int j = 0; j < apples.size(); j++) {
+				if (pos[i].x + 1 == apples[j].getPos().x && pos[i].y == apples[j].getPos().y || pos[i].x - 1 == apples[j].getPos().x && pos[j].y == apples[j].getPos().y || pos[i].x == apples[j].getPos().x && pos[i].y - 1 == apples[j].getPos().y || pos[i].x == apples[j].getPos().x && pos[i].y + 1 == apples[j].getPos().y)
 				{
-					imgPath = "image//head_up_eat_apple.png";
+					if (pos[i].y < pos[i + 1].y)
+					{
+						imgPath = "image//head_up_eat_apple.png";
 
+					}
+					else if (pos[i].y > pos[i + 1].y)
+					{
+						imgPath = "image//head_down_eat_apple.png";
+					}
+					else if (pos[i].x < pos[i + 1].x)
+					{
+						imgPath = "image//head_left_eat_apple.png";
+					}
+					else if (pos[i].x > pos[i + 1].x)
+					{
+						imgPath = "image//head_right_eat_apple.png";
+					}
+					break;
 				}
-				else if (pos[i].y > pos[i + 1].y)
+				else
 				{
-					imgPath = "image//head_down_eat_apple.png";
-				}
-				else if (pos[i].x < pos[i + 1].x)
-				{
-					imgPath = "image//head_left_eat_apple.png";
-				}
-				else if (pos[i].x > pos[i + 1].x)
-				{
-					imgPath = "image//head_right_eat_apple.png";
-				}
-		}
-			else
-			{
-				if (pos[i].y < pos[i + 1].y)
-				{
-					imgPath = "image//head_up.png";
+					if (pos[i].y < pos[i + 1].y)
+					{
+						imgPath = "image//head_up.png";
 
-				}
-				else if (pos[i].y > pos[i + 1].y)
-				{
-					imgPath = "image//head_down.png";
-				}
-				else if (pos[i].x < pos[i + 1].x)
-				{
-					imgPath = "image//head_left.png";
-				}
-				else if (pos[i].x > pos[i + 1].x)
-				{
-					imgPath = "image//head_right.png";
+					}
+					else if (pos[i].y > pos[i + 1].y)
+					{
+						imgPath = "image//head_down.png";
+					}
+					else if (pos[i].x < pos[i + 1].x)
+					{
+						imgPath = "image//head_left.png";
+					}
+					else if (pos[i].x > pos[i + 1].x)
+					{
+						imgPath = "image//head_right.png";
+					}
 				}
 			}
 		}
+
 		else if (i > 0 && i < pos.size() - 1)
 		{
 			if (pos[i].x < pos[i - 1].x && pos[i].x>pos[i + 1].x)
@@ -437,14 +481,14 @@ void Worm::drawWorm(SDL_Renderer* screen, Apple apple) {
 		{
 
 			cout << "Khong the load hinh anh" << endl;
-			
+
 		}
 		rect = { pos[i].x * WORM_CELL + TILE_SIZE - 11, pos[i].y * WORM_CELL - 14, WORM_CELL, WORM_CELL };
 		SDL_RenderCopy(screen, p_object, NULL, &rect);
 		SDL_DestroyTexture(p_object);
-		
 
 	}
+	
 
 }
 vector<Position> Worm::getWormPosition()
@@ -497,7 +541,7 @@ bool Worm::CheckToMapUp(Map& map_data)
 	WormNode* cur = head;
 
 
-	x1 = ( cur->pos.x* WORM_CELL + 5 ) / TILE_SIZE;
+	x1 = (cur->pos.x * WORM_CELL + 5) / TILE_SIZE;
 	x2 = (cur->pos.x * WORM_CELL + WORM_CELL - 5) / TILE_SIZE;
 	y1 = (cur->pos.y * WORM_CELL - 5) / TILE_SIZE;
 	y2 = (cur->pos.y * WORM_CELL + WORM_CELL) / TILE_SIZE;
@@ -575,9 +619,8 @@ bool Worm::CheckToMapRight(Map& map_data)
 
 	return false;
 }
-bool Worm::CheckToFullWorm(Map& map_data, Apple& apple, Stone &stone)
+bool Worm::CheckToFullWorm(Map& map_data, vector<Apple>& apples, vector<Stone>& stones)
 {
-	
 	WormNode* cur = head;
 	while (cur != NULL)
 	{
@@ -586,25 +629,40 @@ bool Worm::CheckToFullWorm(Map& map_data, Apple& apple, Stone &stone)
 		int y1 = (cur->pos.y * WORM_CELL + 5) / TILE_SIZE;
 		int y2 = (cur->pos.y * WORM_CELL + WORM_CELL) / TILE_SIZE;
 
-
-		if (map_data.tile[y1][x1] != 0 || map_data.tile[y2][x2] != 0 ||
-			map_data.tile[y1][x2] != 0 || map_data.tile[y2][x1] != 0 || (cur->pos.y + 1 == apple.getPos().y && cur->pos.x == apple.getPos().x)|| (cur->pos.y + 1 == stone.getPos().y && cur->pos.x == stone.getPos().x))
+		// Kiểm tra va chạm với từng viên đá trong vector stones
+		
+		for(size_t i=0;i<stones.size();i++)
 		{
-			return false; // Có va chạm, trả về false
+			if ((map_data.tile[y1][x1] > 0 && map_data.tile[y1][x1] < 24) ||
+				(map_data.tile[y2][x2] > 0 && map_data.tile[y2][x2] < 24) ||
+				(map_data.tile[y1][x2] > 0 && map_data.tile[y1][x2] < 24) ||
+				(map_data.tile[y2][x1] > 0 && map_data.tile[y2][x1] < 24) ||
+				(cur->pos.y + 1 == stones[i].getPos().y && cur->pos.x == stones[i].getPos().x))
+			{
+				return false; // Có va chạm, trả về false
+			}
 		}
 
+		
+		for(size_t i=0;i<apples.size();i++)
+		{
+			if (cur->pos.y + 1 == apples[i].getPos().y && cur->pos.x == apples[i].getPos().x)
+			{
+				return false; // Có va chạm, trả về false
+			}
+		}
 
 		cur = cur->next;
-		
 	}
-
 	return true; // Không có va chạm, trả về true
 }
 bool Worm::checkToApple(Apple& apple)
 {
 	WormNode* cur = head;
-	if (cur->pos == apple.getPos())
-		return true;
+	
+		if (cur->pos == apple.getPos())
+			return true;
+	
 	return false;
 
 }
@@ -649,16 +707,16 @@ void Destination::Draw(SDL_Renderer* screen)
 	if (_frame_ == 8)
 		_frame_ = 0;
 	SDL_Rect rect = { pos.x * WORM_CELL + TILE_SIZE - 6, pos.y * WORM_CELL - 10, WORM_CELL, WORM_CELL - 5 };
-	SDL_RenderCopy(screen, p_object,current_clip , &rect);
+	SDL_RenderCopy(screen, p_object, current_clip, &rect);
 	SDL_DestroyTexture(p_object);
 }
 bool Worm::checkToDestination(Destination& destination)
 {
-	
+
 	WormNode* cur = head;
 	if (cur->pos == destination.getPos())
 	{
-		
+
 		return true;
 	}
 	return false;
@@ -669,7 +727,7 @@ void Worm::drawCompleteLv(SDL_Renderer* screen)
 	{
 		cout << "Khong the load hinh anh" << endl;
 	}
-	SDL_Rect rect = { 200, 5, 854, 540};
+	SDL_Rect rect = { 200, 5, 854, 540 };
 	SDL_RenderCopy(screen, p_object, NULL, &rect);
 	SDL_DestroyTexture(p_object);
 }
@@ -678,7 +736,7 @@ bool Worm::checkToStone(Stone& stone)
 	WormNode* cur = head;
 	if (cur->pos == stone.getPos())
 		return true;
-	  return false;
+	return false;
 }
 
 bool Worm::LoadMusic()
@@ -698,3 +756,43 @@ bool Worm::LoadMusic()
 
 	return true;
 }
+void Worm::Gravity(Map& map_data, Stone& stone)
+{
+	
+	// Lấy thông tin vị trí của đá
+	Position stonePos = stone.getPos();
+	int x1 = (stonePos.x * STONE_SIZE + 5 / TILE_SIZE);
+	int x2 = (stonePos.x * STONE_SIZE + STONE_SIZE - 5) / TILE_SIZE;
+	int y1 = (stonePos.y * STONE_SIZE) / TILE_SIZE;
+	int y2 = (stonePos.y * STONE_SIZE + STONE_SIZE) / TILE_SIZE;
+	cout << map_data.tile[y2][x2] << " " << map_data.tile[y2][x1] << endl;
+	// Kiểm tra xem đá có ở trên mặt đất không
+	if ((map_data.tile[y2][x2] > 0 && map_data.tile[y2][x2] < 24) || (map_data.tile[y2][x1] > 0 && map_data.tile[y2][x1] < 24))
+	{
+		
+		
+	}
+	
+	else
+	{
+		WormNode* cur = head;
+		// Kiểm tra xem đá có nằm trên vị trí của một node của con sâu không
+		while (cur != nullptr)
+		{
+			if (stonePos.x == cur->pos.x && stonePos.y + 1 == cur->pos.y)
+			{
+				// Đá đang nằm trên một node của con sâu, không rơi nữa
+				return;
+			}
+			cur = cur->next;
+		}
+
+		// Nếu không gặp bất kỳ điều kiện nào, di chuyển đá xuống
+		if (stonePos.y < 24)
+		{
+			stone.Gravity();
+		}
+	}
+}
+
+

@@ -61,7 +61,7 @@ public:
 	bool LoadImg(std::string path, SDL_Renderer* screen);
 	bool LoadMusic();
 	void processUserInput(UserInput input);
-	void nextStep(Map &map_data, Apple &apple, Stone &stone);
+	void nextStep(Map &map_data, vector<Apple>& apple, vector<Stone>& stones );
 	bool checkPosition(Position p);
 	WormNode* getHead() const { return head; }
 	bool CheckToMapDown(Map& map_data);
@@ -79,9 +79,9 @@ public:
 		head->next->next = new WormNode(Position(p.x-2, p.y));
 	}
 	
-	void drawWorm(SDL_Renderer* screen, Apple apple);
-	bool CheckToFullWorm(Map& map_data, Apple &apple, Stone &stone);
-	
+	void drawWorm(SDL_Renderer* screen, vector<Apple>& apples);
+	bool CheckToFullWorm(Map& map_data, vector<Apple> &apples, vector<Stone>& stones);
+	void Gravity(Map& map_data,Stone &stone);
 	bool eatedapple = false;
 	std::vector<Position> getWormPosition();
 

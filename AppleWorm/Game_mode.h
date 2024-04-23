@@ -27,11 +27,16 @@ public:
    void handleLv3(SDL_Event& e, bool& quit);
    void handleLv4(SDL_Event& e, bool& quit);
    void handleLv5(SDL_Event& e, bool& quit);
+   void handleLv6(SDL_Event& e, bool& quit);
+   void handleLv7(SDL_Event& e, bool& quit);
+   void handleLv8(SDL_Event& e, bool& quit);
    void handleLv9(SDL_Event& e, bool& quit);
-
+   void handleLv10(SDL_Event& e, bool& quit);
+   void handleLv11(SDL_Event& e, bool& quit);
+   void handleLv12(SDL_Event& e, bool& quit);
    void drawChooseLV(SDL_Renderer* screen);
    void handleChooseLV(SDL_Event& e, bool& quit);
-   void Playing(bool& quit, SDL_Event& e, Worm& worm, Position& newPosWorm, Destination& destination, Apple& apple,Position &NewPosApple, Stone& stone, GameMap& game_map, GameState Nextlv);
+   void Playing(bool& quit, SDL_Event& e, Worm& worm, Position& newPosWorm, Destination& destination, vector<Apple>& apples, vector<Position>& NewPosApple, vector<Stone>& stones, vector<Position>& NewPosStones, GameMap& game_map, GameState Nextlv);
    void MenuFinish(GameState lv, SDL_Event &e, bool &quit, bool &q);
    void initData();
    

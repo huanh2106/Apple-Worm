@@ -18,6 +18,7 @@ void GameMap::LoadMap(std::string name) {
 	}
 
 	int val;
+
 	for (int i = 0; i < MAX_MAP_Y; i++) {
 		for (int j = 0; j < MAX_MAP_X; j++) {
 			file >> val;
@@ -32,7 +33,8 @@ void GameMap::LoadMap(std::string name) {
 			game_map_.tile[i][j] = val;
 		}
 	}
-
+	
+	
 	file.close();
 
 	game_map_.max_x = (game_map_.max_x + 1) * TILE_SIZE;
