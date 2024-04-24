@@ -35,7 +35,7 @@ void Stone::Draw(SDL_Renderer* screen)
 	SDL_DestroyTexture(p_object);
 }
 
-bool Stone::StoneCheckToLeftAndRight(Map& map_data, Stone &otherStone)
+bool Stone::StoneCheckToLeftAndRight(Map& map_data, Stone &otherStone, Apple &apple)
 {
 	int x1 = 0;
 	int x2 = 0;
@@ -58,6 +58,11 @@ bool Stone::StoneCheckToLeftAndRight(Map& map_data, Stone &otherStone)
 	
 	else if ((pos.y == otherStone.pos.y && pos.x == otherStone.pos.x - 1) || (pos.y == otherStone.pos.y&&pos.x == otherStone.pos.x + 1))
 	{   
+		cout << "heheh";
+		return true;
+	}
+	else if ((pos.y == apple.getPos().y && pos.x +1 == apple.getPos().x) || (pos.y == apple.getPos().y && pos.x -1 == apple.getPos().x))
+	{
 		cout << "heheh";
 		return true;
 	}

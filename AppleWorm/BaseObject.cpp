@@ -79,7 +79,7 @@ bool BaseObject::loadFromRenderedText(SDL_Renderer* screen,TTF_Font* gFont, stri
 }
 void BaseObject::RenderText(SDL_Renderer* des)
 {
-	SDL_Rect rect{ 580, 68, rect_.w, rect_.h };
+	SDL_Rect rect{ 68, 580, rect_.w, rect_.h };
 	SDL_RenderCopy(des, p_object, NULL, &rect);
 
 }

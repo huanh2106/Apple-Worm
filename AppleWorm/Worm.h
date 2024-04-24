@@ -81,7 +81,7 @@ public:
 	
 	void drawWorm(SDL_Renderer* screen, vector<Apple>& apples);
 	bool CheckToFullWorm(Map& map_data, vector<Apple> &apples, vector<Stone>& stones);
-	void Gravity(Map& map_data,Stone &stone);
+	void Gravity(Map& map_data,Stone &stone, vector<Apple> &apple);
 	bool eatedapple = false;
 	std::vector<Position> getWormPosition();
 

@@ -204,6 +204,7 @@ void Worm::nextStep(Map& map_data, vector<Apple>& apples, vector<Stone>& stones)
 						if (g_effectOn) {
 							Mix_PlayChannel(-1, g_worm, 0);
 						}
+						
 						for (size_t i = 0; i < apples.size(); i++)
 						{
 							if (checkToApple(apples[i]))
@@ -218,18 +219,23 @@ void Worm::nextStep(Map& map_data, vector<Apple>& apples, vector<Stone>& stones)
 								eatedapple = true;
 							}
 						}
+						bool logic = false;
 						for (size_t i = 0; i < stones.size(); i++) {
 								if (checkToStone(stones[i]))
 							{  
 									for (size_t j = 0; j < stones.size(); j++) {
-
-										if (stones[i].StoneCheckToLeftAndRight(map_data, stones[j]))
-										{
-											head->pos.x += SPEED;
-											break;
+										for (size_t h = 0; h < apples.size(); h++) {
+											if (stones[i].StoneCheckToLeftAndRight(map_data, stones[j], apples[h]))
+											{
+												head->pos.x += SPEED;
+												logic = true;
+												break;
+											}
 										}
+										break;
 
 									}
+									if(!logic)
 								stones[i].DirLeft();
 											
 										
@@ -267,20 +273,36 @@ void Worm::nextStep(Map& map_data, vector<Apple>& apples, vector<Stone>& stones)
 								apples[i].removeApple();
 								eatedapple = true;
 							}
-						}
+						}    
+						bool logic = false;
 						for (size_t i = 0; i < stones.size(); i++) {
 							if (checkToStone(stones[i]))
 							{
-								for (size_t j = 0; j < stones.size(); j++) {
-
-									if (stones[i].StoneCheckToLeftAndRight(map_data, stones[j]))
-									{
+								WormNode* cur = head;
+								cur = cur->next;
+								while (cur != NULL)
+								{
+									if (cur->pos.y == stones[i].getPos().y && cur->pos.x - 1 == stones[i].getPos().x) {
 										head->pos.x -= SPEED;
-										break;
+										
+										return;
 									}
+									cur = cur->next;
+								}
+
+								for (size_t j = 0; j < stones.size(); j++) {
+									for (size_t h = 0; h < apples.size(); h++) {
+										if (stones[i].StoneCheckToLeftAndRight(map_data, stones[j],apples[h]))
+										{
+											logic = true;
+											head->pos.x -= SPEED;
+											break;
+										}
+									}
+									break;
 								}
 										
-									
+							if(!logic)
 							stones[i].DirRight();
 										
 									
@@ -358,8 +380,8 @@ void Worm::drawWorm(SDL_Renderer* screen, vector<Apple>& apples) {
 
 		if (i == 0)
 		{
-			for (int j = 0; j < apples.size(); j++) {
-				if (pos[i].x + 1 == apples[j].getPos().x && pos[i].y == apples[j].getPos().y || pos[i].x - 1 == apples[j].getPos().x && pos[j].y == apples[j].getPos().y || pos[i].x == apples[j].getPos().x && pos[i].y - 1 == apples[j].getPos().y || pos[i].x == apples[j].getPos().x && pos[i].y + 1 == apples[j].getPos().y)
+			for (size_t j = 0; j < apples.size(); j++) {
+				if (pos[i].x + 1 == apples[j].getPos().x && pos[i].y == apples[j].getPos().y || pos[i].x - 1 == apples[j].getPos().x && pos[i].y == apples[j].getPos().y || pos[i].x == apples[j].getPos().x && pos[i].y - 1 == apples[j].getPos().y || pos[i].x == apples[j].getPos().x && pos[i].y + 1 == apples[j].getPos().y)
 				{
 					if (pos[i].y < pos[i + 1].y)
 					{
@@ -516,17 +538,17 @@ bool Worm::CheckToMapDown(Map& map_data)
 	x2 = (cur->pos.x * WORM_CELL + WORM_CELL - 5) / TILE_SIZE;
 	y1 = cur->pos.y * WORM_CELL / TILE_SIZE;
 	y2 = (cur->pos.y * WORM_CELL + WORM_CELL) / TILE_SIZE;
-	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y)
 	{
 
-		if (map_data.tile[y2][x2] != 0 && map_data.tile[y2][x1] != 0)
+		if ((map_data.tile[y2][x2] > 0 && map_data.tile[y2][x2] < 30) && (map_data.tile[y2][x1] > 0 && map_data.tile[y2][x1] < 30))
 		{
 			return true;
 		}
 	}
 	else
 	{
-		return true;
+		return false;
 	}
 
 
@@ -545,7 +567,7 @@ bool Worm::CheckToMapUp(Map& map_data)
 	x2 = (cur->pos.x * WORM_CELL + WORM_CELL - 5) / TILE_SIZE;
 	y1 = (cur->pos.y * WORM_CELL - 5) / TILE_SIZE;
 	y2 = (cur->pos.y * WORM_CELL + WORM_CELL) / TILE_SIZE;
-	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y)
 	{
 
 		if (map_data.tile[y1][x1] != 0 && map_data.tile[y1][x2] != 0)
@@ -633,10 +655,10 @@ bool Worm::CheckToFullWorm(Map& map_data, vector<Apple>& apples, vector<Stone>& 
 		
 		for(size_t i=0;i<stones.size();i++)
 		{
-			if ((map_data.tile[y1][x1] > 0 && map_data.tile[y1][x1] < 24) ||
-				(map_data.tile[y2][x2] > 0 && map_data.tile[y2][x2] < 24) ||
-				(map_data.tile[y1][x2] > 0 && map_data.tile[y1][x2] < 24) ||
-				(map_data.tile[y2][x1] > 0 && map_data.tile[y2][x1] < 24) ||
+			if ((map_data.tile[y1][x1] > 0 && map_data.tile[y1][x1] <= 24) ||
+				(map_data.tile[y2][x2] > 0 && map_data.tile[y2][x2] <= 24) ||
+				(map_data.tile[y1][x2] > 0 && map_data.tile[y1][x2] <= 24) ||
+				(map_data.tile[y2][x1] > 0 && map_data.tile[y2][x1] <= 24) ||
 				(cur->pos.y + 1 == stones[i].getPos().y && cur->pos.x == stones[i].getPos().x))
 			{
 				return false; // Có va chạm, trả về false
@@ -756,17 +778,22 @@ bool Worm::LoadMusic()
 
 	return true;
 }
-void Worm::Gravity(Map& map_data, Stone& stone)
+void Worm::Gravity(Map& map_data, Stone& stone, vector<Apple> &apple)
 {
 	
 	// Lấy thông tin vị trí của đá
 	Position stonePos = stone.getPos();
-	int x1 = (stonePos.x * STONE_SIZE + 5 / TILE_SIZE);
-	int x2 = (stonePos.x * STONE_SIZE + STONE_SIZE - 5) / TILE_SIZE;
+	int x1 = (stonePos.x * STONE_SIZE+26) / TILE_SIZE;
+	int x2 = (stonePos.x * STONE_SIZE + STONE_SIZE-10 ) / TILE_SIZE;
 	int y1 = (stonePos.y * STONE_SIZE) / TILE_SIZE;
-	int y2 = (stonePos.y * STONE_SIZE + STONE_SIZE) / TILE_SIZE;
+	int y2 = (stonePos.y * STONE_SIZE + STONE_SIZE-26) / TILE_SIZE;
 	cout << map_data.tile[y2][x2] << " " << map_data.tile[y2][x1] << endl;
 	// Kiểm tra xem đá có ở trên mặt đất không
+	for (size_t i = 0; i < apple.size(); i++)
+	{
+		if (stonePos.x == apple[i].getPos().x && stonePos.y + 1 == apple[i].getPos().y)
+			return;
+	}
 	if ((map_data.tile[y2][x2] > 0 && map_data.tile[y2][x2] < 24) || (map_data.tile[y2][x1] > 0 && map_data.tile[y2][x1] < 24))
 	{
 		
