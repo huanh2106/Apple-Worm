@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\UET\Apple-Worm\x64\Debug\AppleWorm.dll</FullPath>
+      <FullPath>C:\UET\Apple-Worm\x64\Release\AppleWorm.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

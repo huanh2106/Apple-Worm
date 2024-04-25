@@ -1,0 +1,13 @@
+﻿  Apple.cpp
+  BaseObject.cpp
+  CommonFunc.cpp
+  Game_mode.cpp
+  main.cpp
+  game_map.cpp
+  Stone.cpp
+  Worm.cpp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 560 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  AppleWorm.vcxproj -> C:\UET\Apple-Worm\x64\Release\AppleWorm.exe

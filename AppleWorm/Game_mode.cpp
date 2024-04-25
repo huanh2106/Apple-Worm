@@ -883,6 +883,7 @@ void GameMode::MenuFinish( GameState lv, SDL_Event &e, bool &quit, bool &q)
 {
 	while (SDL_PollEvent(&e) != 0) {
 		if (e.type == SDL_QUIT) {
+			q = true;
 			quit = true;
 		}
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
