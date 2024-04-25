@@ -222,7 +222,18 @@ void Worm::nextStep(Map& map_data, vector<Apple>& apples, vector<Stone>& stones)
 						bool logic = false;
 						for (size_t i = 0; i < stones.size(); i++) {
 								if (checkToStone(stones[i]))
-							{  
+							{
+									WormNode* cur = head;
+									cur = cur->next;
+									while (cur != NULL)
+									{
+										if (cur->pos.y == stones[i].getPos().y && cur->pos.x - 1 == stones[i].getPos().x) {
+											head->pos.x += SPEED;
+											direction = NONE;
+											return;
+										}
+										cur = cur->next;
+									}
 									for (size_t j = 0; j < stones.size(); j++) {
 										for (size_t h = 0; h < apples.size(); h++) {
 											if (stones[i].StoneCheckToLeftAndRight(map_data, stones[j], apples[h]))
@@ -284,7 +295,7 @@ void Worm::nextStep(Map& map_data, vector<Apple>& apples, vector<Stone>& stones)
 								{
 									if (cur->pos.y == stones[i].getPos().y && cur->pos.x - 1 == stones[i].getPos().x) {
 										head->pos.x -= SPEED;
-										
+										direction = NONE;
 										return;
 									}
 									cur = cur->next;

@@ -22,9 +22,9 @@ void GameMode::initData() {
 		cout << "Window could not be created! SDL Error: " << SDL_GetError() << endl;
 		exit(EXIT_FAILURE);
 	}
-	//SDL_Surface* iconSurface = IMG_Load("image//icon.png");
-	//SDL_SetWindowIcon(g_window, iconSurface);
-	//SDL_FreeSurface(iconSurface);
+	SDL_Surface* iconSurface = IMG_Load("image//icon.png");
+	SDL_SetWindowIcon(g_window, iconSurface);
+	SDL_FreeSurface(iconSurface);
 	g_screen = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 	if (g_screen == nullptr) {
 		cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << std::endl;
