@@ -19,6 +19,7 @@ static Mix_Chunk* g_wineffect = NULL;
 static TTF_Font* gFont = NULL;
 extern bool g_effectOn;
 //screen
+const int FPS = 30;
 const int SCREEN_WIDTH = 1248;
 const int SCREEN_HEIGHT = 624;
 const int SCREEN_BPP = 32;

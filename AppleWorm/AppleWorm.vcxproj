@@ -141,6 +141,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="game_map.cpp" />
     <ClCompile Include="Stone.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +151,7 @@
     <ClInclude Include="game_map.h" />
     <ClInclude Include="Game_mode.h" />
     <ClInclude Include="Stone.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Worm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

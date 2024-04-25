@@ -1,7 +1,7 @@
 ﻿#include "Game_mode.h"
 #include <iostream>
 #include <vector>
-
+#include "Timer.h"
 using namespace std;
 #define playX 544
 #define playY 375
@@ -57,7 +57,7 @@ bool LoadBackground() {
 		cout << "Failed to load background image!" << std::endl;
 		return false;
 	}
-	
+
 	return true;
 }
 bool LoadText(string text)
@@ -127,7 +127,7 @@ GameMode::~GameMode()
 void GameMode::run(SDL_Event& e)
 {
 	LoadMusic();
-	
+
 	bool quit = false;
 	while (!quit)
 	{
@@ -147,13 +147,13 @@ void GameMode::run(SDL_Event& e)
 		}
 		if (state == Menu)
 		{
-			
+
 			drawMenu(g_screen);
 			handleMenu(e, quit);
 
 		}
 		else if (state == ChooseLV)
-		{   
+		{
 			drawChooseLV(g_screen);
 			handleChooseLV(e, quit);
 		}
@@ -220,9 +220,9 @@ void GameMode::run(SDL_Event& e)
 	}
 	close();
 }
-	
-	
-    
+
+
+
 bool GameMode::LoadImg(std::string path, SDL_Renderer* screen)
 {
 	bool ret = BaseObject::LoadImg(path, screen);
@@ -233,7 +233,7 @@ bool GameMode::LoadImg(std::string path, SDL_Renderer* screen)
 	return ret;
 }
 void GameMode::drawMenu(SDL_Renderer* screen)
-{  
+{
 	if (!LoadImg("menu//menubackground.png", screen))
 	{
 		cout<<"load menu fail";
@@ -250,7 +250,7 @@ void GameMode::drawMenu(SDL_Renderer* screen)
 	{
 		cout << "load menu fail";
 	}
-	
+
 	SDL_RenderCopy(screen, p_object, NULL, &playRect);
 	SDL_DestroyTexture(p_object);
 	if (g_effectOn)
@@ -272,7 +272,7 @@ void GameMode::drawMenu(SDL_Renderer* screen)
     SDL_RenderPresent(screen);
 }
 void GameMode::handleMenu(SDL_Event& e, bool& quit ) {
-	
+
 	while (SDL_PollEvent(&e) != 0) {
 		if (e.type == SDL_QUIT) {
 			quit = true;
@@ -304,8 +304,8 @@ void GameMode::handleMenu(SDL_Event& e, bool& quit ) {
 
 		}
 
-		
-	
+
+
 	}
 
 }
@@ -679,7 +679,7 @@ void GameMode::handleLv15(SDL_Event& e, bool& quit)
 	Position newPosWorm(12, 9);
 	vector<Position> newPosStones{ Position(10, 7), Position(12, 8) };
 	vector<Position> newPosApples{ Position(10, 8), Position(11, 7),Position(10, 10), Position(12 , 10), Position(12,6)};
-	
+
 	Worm worm(&game_map);
 	worm.LoadMusic();
 	worm.SetWorm(newPosWorm);
@@ -689,9 +689,9 @@ void GameMode::handleLv15(SDL_Event& e, bool& quit)
 	apples[2].setPos(newPosApples[2]);
 	apples[3].setPos(newPosApples[3]);
 	apples[4].setPos(newPosApples[4]);
-	
-	
-	
+
+
+
 	vector<Stone> stones{ Stone(), Stone() };
 	stones[0].setPos(newPosStones[0]);
 	stones[1].setPos(newPosStones[1]);
@@ -740,7 +740,7 @@ void GameMode::handleChooseLV(SDL_Event& e, bool& quit)
 			quit = true;
 		}
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
-	
+
 			int mouseX, mouseY;
 
 			SDL_GetMouseState(&mouseX, &mouseY);
@@ -850,8 +850,8 @@ void GameMode::handleChooseLV(SDL_Event& e, bool& quit)
 					Mix_PlayChannel(-1, g_next, 0);
 				}
 			}
-			
-			
+
+
 			if (mouseX >= 190 && mouseX <= 265 && mouseY >= 247 && mouseY <= 380) {
 				state = Menu;
 				if (g_effectOn)
@@ -888,7 +888,7 @@ void GameMode::MenuFinish( GameState lv, SDL_Event &e, bool &quit, bool &q)
 		}
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
 			int mouseX, mouseY;
-			
+
 			SDL_GetMouseState(&mouseX, &mouseY);
 			cout << mouseX << " " << mouseY << endl;
 
@@ -911,7 +911,7 @@ void GameMode::MenuFinish( GameState lv, SDL_Event &e, bool &quit, bool &q)
 				q = true;
 			}
 
-			
+
 			if (mouseX >= 950 && mouseX <= 1000 && mouseY >= 20 && mouseY <= 70) {
 				g_effectOn = !g_effectOn;
 			}
@@ -931,10 +931,13 @@ void GameMode::MenuFinish( GameState lv, SDL_Event &e, bool &quit, bool &q)
 }
 void GameMode::Playing(bool& quit, SDL_Event& e, Worm& worm, Position& newPosWorm, Destination& destination, vector<Apple>& apples, vector<Position>& NewPosApples, vector<Stone>& stones, vector<Position>& NewPosStones, GameMap& game_map, GameState Nextlv)
 {
+	Timer fps;
+
 	bool q = false;
 	bool wineffectPlayed = false;
 	while (!q)
 	{
+		fps.start();
 		while (SDL_PollEvent(&e) != 0)
 		{
 			if (e.type == SDL_QUIT)
@@ -1026,27 +1029,27 @@ void GameMode::Playing(bool& quit, SDL_Event& e, Worm& worm, Position& newPosWor
 		game_map.DrawMap1(g_screen);
 		Map map_data = game_map.getMap();
 
-		
+
 		worm.drawWorm(g_screen, apples);
 		for (size_t i = 0; i < apples.size(); i++) {
 			apples[i].Draw(g_screen);
 		}
-		
+
 		bool logic = false;
 		for (size_t i = 0; i < stones.size(); i++)
 		{
 			 stones[i].Draw(g_screen);
 			for (size_t j=0; j < stones.size(); j++)
 			{
-				
+
 					if (stones[i].StonecheckToOtherStone(stones[j]))
-					{ 
-						
+					{
+
 						logic = true;
 
 					}
-			    
-				
+
+
 		}
 		if(!logic)
 	    worm.Gravity(map_data, stones[i],apples);
@@ -1069,7 +1072,14 @@ void GameMode::Playing(bool& quit, SDL_Event& e, Worm& worm, Position& newPosWor
 			worm.nextStep(map_data, apples, stones);
 		}
 		SDL_RenderPresent(g_screen);
-		
+		int RealTime = fps.get_ticks();
+		int time_one_frame = 1000 / FPS;
+		if (RealTime < time_one_frame)
+		{
+			int delay = time_one_frame - RealTime;
+			SDL_Delay(delay);
+		}
+
 	}
 	g_background.Free();
 }
@@ -1086,7 +1096,7 @@ void GameMode::drawIconEffectOn( SDL_Renderer* screen) {
 	rectchooselv.h = 50;
 	SDL_RenderCopy(screen, p_object, NULL, &rectchooselv);
 	SDL_DestroyTexture(p_object);
-	
+
 }
 void GameMode::drawIconEffectOff(SDL_Renderer* screen) {
 	if (!LoadImg("image//uneffect.png", screen))
@@ -1100,7 +1110,7 @@ void GameMode::drawIconEffectOff(SDL_Renderer* screen) {
 	rectchooselv.h = 50;
 	SDL_RenderCopy(screen, p_object, NULL, &rectchooselv);
 	SDL_DestroyTexture(p_object);
-	
+
 }
 void GameMode::drawIconMusicOn(SDL_Renderer* screen) {
 	if (!LoadImg("image//music.png", screen))
