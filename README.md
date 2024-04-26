@@ -40,10 +40,10 @@ Hoặc Chọn Code -> Download Zip (Khoảng 90MB)
 
 ![image](AppleWorm/preview/download.png)
 
+
 - Yêu cầu có Visual Studio 2022 Community và tải gói C++ cần thiết<br/>
   
 **Bước 2:** Bấm vào file AppleWorm.sln dự án sẽ tự động mở trong Visual Studio.<br/>
-Một số chú ý: <br/>
 
 **Bước 3:** Bấm vào Local Windows Debugger để khởi động game
 
@@ -61,18 +61,25 @@ Một Menu chọn các level hiện lên với mức độ khó tăng dần. Ở
 
 <div style="text-align: center;">
 
-![image](AppleWorn/preview/level.png)
+![image](AppleWorm/preview/level.png)
 
 </div>
 
 # 2. Các thành phần trong game:
 
--    Apple ![image](AppleWorm/preview/apple.png)
-     : Con sâu ăn apple giúp nó dài ra
+-    Apple <img src="AppleWorm/preview/Apple.png" width="30" height="30"> : Con sâu ăn apple giúp nó dài ra
      
--    Stone ![image](AppleWorm/preview/stone.png)
-     : Stone có thể được đẩy bởi con sâu và nó được coi như là công cụ để giúp con sâu vượt quá thửu thách
+-    Stone <img src="AppleWorm/preview/stone.png" width="30" height="30"> :  Stone có thể được đẩy bởi con sâu và nó được coi như là công cụ để giúp con sâu vượt quá thửu thách
+-    Worm  <img src="AppleWorm/preview/worm.png" width="360" height="60"> : Khi con sâu di chuyển có khá là nhiều trạng thái của các node
+-    Roll back <img src="AppleWorm/preview/rollback.png" width="30" height="30">: Bấm vào nút roll back giúp quay lại từ đầu của màn chơi trong trường hợp bạn hết đường đi hoặc rơi xuống vực thẳm
+-    Bật/tắt âm thanh và effect <img src="AppleWorm/preview/music.png" width="30" height="30"> <img src="AppleWorm/preview/effect.png" width="30" height="30">
+-    Đích đến <img src="AppleWorm/preview/destination.png" width="30" height="30"> : Mục tiêu của con sâu là di chuyển được đến đích
+-    Chọn level <img src="AppleWorm/preview/chooselevel.png" width="30" height="30"> : Bấm vào đây sẽ di chuyển ra menu chọn level
+-    Tile map
+  ![image](AppleWorm/preview/tilemap.png)
 
+</div>
+Kĩ thuật tilemap được dùng để tạo ra phần đất cho bản đồ
 
 
 - Bố cục game cơ bản:
@@ -87,10 +94,10 @@ Một Menu chọn các level hiện lên với mức độ khó tăng dần. Ở
 # 3. Cách chơi
 Trước hết, sâu của bạn đang đói. Hãy ăn một quả táo ngon. Ăn táo cũng góp phần giúp bạn trốn thoát. Khi con sâu của bạn hấp thụ quả táo, cơ thể nó sẽ phát triển. Sau đó, uốn cong cơ thể dài của mình để di chuyển đến đích. Tất nhiên, để ăn được quả táo mà không bị rơi hay bị kẹt là điều không hề đơn giản. Ngoài ra bạn còn có thể di chuyển hòn đá một cách tính toán để có thể đến đích. Mỗi bước bạn di chuyển trong Apple Worm đều phải được tính toán cẩn thận. Nếu không, bạn phải chơi lại cấp độ. Đừng quá lo lắng, trò chơi cho phép bạn chơi nhiều lần tùy thích. Càng có nhiều thời gian chơi lại một cấp độ, bạn càng nhận được nhiều kinh nghiệm. Từ đó, bạn có thể đưa ra chiến lược thông minh để vượt qua cấp độ đó.
 
-## Những cấp độ khó đang chờ bạn trong Apple Worm
+### Những cấp độ khó đang chờ bạn trong Apple Worm
 Bạn có nghĩ đây là một trò chơi dễ dàng không? Chỉ cần điều hướng con sâu của bạn sang trái và phải, sau đó đi tới cổng thông tin. Điều này sẽ đúng với hai cấp độ đầu tiên. Tuy nhiên, bạn sẽ phải có cái nhìn hoàn toàn mới về trò chơi này khi lên đến cấp độ 3. Lý do là hai cấp độ đầu tiên là cấp độ hướng dẫn. Từ cấp độ thứ 3 trở đi, những thử thách thực sự sẽ đến. Hãy nhớ rằng cấp độ càng cao thì bạn càng gặp nhiều khó khăn. Đôi khi, bạn chơi lại một cấp độ hàng chục lần. Hãy bình tĩnh và đừng mất hy vọng vì đây là một trò chơi trí tuệ để kiểm tra trí não của bạn.
 
-## Cách vượt qua mọi cấp độ trong Apple Worm
+### Cách vượt qua mọi cấp độ trong Apple Worm
 Như đã đề cập, mục tiêu chính của bạn là đi qua cổng. Ăn táo là bước đầu tiên để hoàn thành mục tiêu. Có vẻ dễ dàng để có được quả táo. Tin tôi đi, con sâu của bạn có thể rơi vào khe hở ngay lập tức hoặc mắc kẹt trong một góc hẹp. Vì vậy, trước khi di chuyển bạn nên quan sát địa hình mê cung. Mê cung luôn có một số khối màu nâu với hình dạng đơn giản như hình chữ nhật, hình vuông,… Thoạt nhìn, chúng có vẻ được đặt ngẫu nhiên. Thực chất, vai trò của chúng trong mê cung là ngăn chặn con sâu của bạn trốn thoát nhưng chúng cũng có thể đóng vai trò là vật phẩm hỗ trợ cho bạn. Để tránh mọi nguy hiểm, bạn phải tính toán khéo léo từng động tác. Ước tính từng khoảng trống hoặc góc mà bạn có thể gặp phải. Với chiều dài của con sâu liệu nó có thể vượt qua được chúng không? Nếu rơi vào khoảng trống hoặc bị dồn vào góc, bạn có thể sử dụng nút phát lại để bắt đầu lại màn chơi đó.
 
 Bạn còn có thể bật tắt nhạc và hiệu ứng âm thanh trong game bằng hai nút âm lượng ở góc trên bên trái màn hình.
@@ -103,13 +110,23 @@ Bạn còn có thể bật tắt nhạc và hiệu ứng âm thanh trong game b�
 ![image](AppleWorm/preview/win.png)
 </div>
 
+### Bạn có thể bấm
+
+<img src="AppleWorm/preview/chooselv.png" width="30" height="30"> để chuyển về menu chọn level 
+
+<img src="AppleWorm/preview/quit.png" width="30" height="30"> để thoát game.
+
+<img src="AppleWorm/preview/next.png" width="30" height="30"> để chuyển sang level tiếp theo.
+
+                  
+
 ### Đồ họa của game:
 Lấy hình ảnh từ game gốc AppleWorm của Icestone Ltd
 
 
 ### Về source code game:
 
-- Folder mage:
+- Folder image:
     * Chứa tất cả các hình ảnh của game bao gồm cả con sâu, quả táo, đá, nút roll back, Bật/tắt âm lượng ,...
 - Folder map: Chứa các hình ảnh tile map và file tile map của các màn
 - Folder music: Chứa âm thanh của game và các hiệu ứng con sâu ăn quả táo, con sau di chuyển, hiệu ứng khi win và hiệu ứng khi bấm các nút 
