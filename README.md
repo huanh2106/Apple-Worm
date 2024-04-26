@@ -38,7 +38,8 @@ Giải nén game vào một thư mục và bật AppleWorm.exe lên và chơi.<b
 **Bước 1:** Clone repo này về . <br/>
 Hoặc Chọn Code -> Download Zip (Khoảng 90MB)
 
-![image](AppleWorm/preview/download.png)
+<img src="AppleWorm/preview/download.png" width="300" height="200">
+
 
 - Yêu cầu có Visual Studio 2022 Community và tải gói C++ cần thiết<br/>
   
