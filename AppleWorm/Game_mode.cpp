@@ -22,6 +22,7 @@ void GameMode::initData() {
 		cout << "Window could not be created! SDL Error: " << SDL_GetError() << endl;
 		exit(EXIT_FAILURE);
 	}
+
 	SDL_Surface* iconSurface = IMG_Load("image//icon.png");
 	SDL_SetWindowIcon(g_window, iconSurface);
 	SDL_FreeSurface(iconSurface);
