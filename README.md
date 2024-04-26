@@ -61,7 +61,7 @@ Một Menu chọn các level hiện lên với mức độ khó tăng dần. Ở
 
 <div style="text-align: center;">
 
-![image](AppleWorn/preview/level.png)
+![image](AppleWorm/preview/level.png)
 
 </div>
 
