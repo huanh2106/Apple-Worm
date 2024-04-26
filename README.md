@@ -28,10 +28,13 @@ Hầu hết mọi người có thể quen thuộc với cơ chế giống như c
 
 ## Cách 1: Không bao gồm code.
 
-Tải game (được nén thành .zip) tại link
+Tải game (được nén thành AppleWormUET.zip) tại link
 sau: https://github.com/huanh2106/Apple-Worm/releases/tag/v1.0.0
 
 Giải nén game vào một thư mục và bật AppleWorm.exe lên và chơi.<br/>
+
+Nếu chạy file exe không thành công do lỗi runtime thì phải chạy file VC_redist.x64.exe để cài Visual C++ Redistributable '
+
 
 ## Cách 2: Bao gồm code và có thể biên dịch.
 
