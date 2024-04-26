@@ -1,8 +1,7 @@
 
 # AppleWorm by Huy
 
-- Thử nghiệm game: [https://youtu.be/EyTwTOWr5zU](https://youtu.be/EziCb7U9UbU)
-- Phá đảo game: https://youtu.be/0RQHeCaz4sg
+Demo game và cấu trúc của code: https://youtu.be/bWGtsP8xy7Q
 
 # Giới thiệu game
 
@@ -14,12 +13,12 @@ Hầu hết mọi người có thể quen thuộc với cơ chế giống như c
 - [0. Cách tải game](#0-cách-tải-game)
     * [Cách 1: Không bao gồm code.](#-cách-1-không-bao-gồm-code)
     * [Cách 2: Bao gồm code và có thể biên dịch.](#-cách-2-bao-gồm-code-và-có-thể-biên-dịch)
-- [1. Bắt đầu game](#1bắt-đầu-game)
+- [1. Bắt đầu game](#1-bắt-đầu-game)
 - [2. Các thành phần trong game:](#2-các-thành-phần-trong-game)
 - [3. Cách chơi](#3-cách-chơi)
 - [4. Chiến thắng và thất bại](#4-chiến-thắng-và-thất-bại)
-- [Về đồ họa của game:](#về-đồ-họa-của-game)
-- [Về source code game](#về-source-code-game)
+    * [Về đồ họa của game](#-về-đồ-họa-của-game)
+    * [Về source code game](#-về-source-code-game)
 - [5. Các kĩ thuật sử dụng](#5-các-kĩ-thuật-sử-dụng)
 - [6. Nguồn tham khảo](#6-nguồn-tham-khảo)
 - [7. Hướng phát triển](#7-hướng-phát-triển)
@@ -28,15 +27,18 @@ Hầu hết mọi người có thể quen thuộc với cơ chế giống như c
 
 ## Cách 1: Không bao gồm code.
 
-Tải game (được nén thành .zip) tại link
-sau: 
+Tải game (được nén thành AppleWormUET.zip) tại link
+sau: https://github.com/huanh2106/Apple-Worm/releases/tag/v1.0.0
 
 Giải nén game vào một thư mục và bật AppleWorm.exe lên và chơi.<br/>
+
+Nếu chạy file exe không thành công do lỗi runtime thì phải chạy file VC_redist.x64.exe để cài Visual C++ Redistributable '
+
 
 ## Cách 2: Bao gồm code và có thể biên dịch.
 
 **Bước 1:** Clone repo này về . <br/>
-Hoặc Chọn Code -> Download Zip (Khoảng 90MB)
+Hoặc Chọn Code -> Download Zip 
 
 ![image](AppleWorm/preview/download.png)
 
@@ -75,11 +77,14 @@ Một Menu chọn các level hiện lên với mức độ khó tăng dần. Ở
 -    Bật/tắt âm thanh và effect <img src="AppleWorm/preview/music.png" width="30" height="30"> <img src="AppleWorm/preview/effect.png" width="30" height="30">
 -    Đích đến <img src="AppleWorm/preview/destination.png" width="30" height="30"> : Mục tiêu của con sâu là di chuyển được đến đích
 -    Chọn level <img src="AppleWorm/preview/chooselevel.png" width="30" height="30"> : Bấm vào đây sẽ di chuyển ra menu chọn level
--    Tile map
+-    Tile map: Kĩ thuật tilemap được dùng để tạo ra phần đất cho bản đồ
+
+   
   ![image](AppleWorm/preview/tilemap.png)
 
 </div>
-Kĩ thuật tilemap được dùng để tạo ra phần đất cho bản đồ
+
+
 
 
 - Bố cục game cơ bản:
@@ -92,13 +97,20 @@ Kĩ thuật tilemap được dùng để tạo ra phần đất cho bản đồ
  
 
 # 3. Cách chơi
+
 Trước hết, sâu của bạn đang đói. Hãy ăn một quả táo ngon. Ăn táo cũng góp phần giúp bạn trốn thoát. Khi con sâu của bạn hấp thụ quả táo, cơ thể nó sẽ phát triển. Sau đó, uốn cong cơ thể dài của mình để di chuyển đến đích. Tất nhiên, để ăn được quả táo mà không bị rơi hay bị kẹt là điều không hề đơn giản. Ngoài ra bạn còn có thể di chuyển hòn đá một cách tính toán để có thể đến đích. Mỗi bước bạn di chuyển trong Apple Worm đều phải được tính toán cẩn thận. Nếu không, bạn phải chơi lại cấp độ. Đừng quá lo lắng, trò chơi cho phép bạn chơi nhiều lần tùy thích. Càng có nhiều thời gian chơi lại một cấp độ, bạn càng nhận được nhiều kinh nghiệm. Từ đó, bạn có thể đưa ra chiến lược thông minh để vượt qua cấp độ đó.
 
+## Di chuyển
+Lên: &#8593;
+Xuống: &#8595;
+Trái: &#8592;
+Phải: &#8594;
+
 ### Những cấp độ khó đang chờ bạn trong Apple Worm
-Bạn có nghĩ đây là một trò chơi dễ dàng không? Chỉ cần điều hướng con sâu của bạn sang trái và phải, sau đó đi tới cổng thông tin. Điều này sẽ đúng với hai cấp độ đầu tiên. Tuy nhiên, bạn sẽ phải có cái nhìn hoàn toàn mới về trò chơi này khi lên đến cấp độ 3. Lý do là hai cấp độ đầu tiên là cấp độ hướng dẫn. Từ cấp độ thứ 3 trở đi, những thử thách thực sự sẽ đến. Hãy nhớ rằng cấp độ càng cao thì bạn càng gặp nhiều khó khăn. Đôi khi, bạn chơi lại một cấp độ hàng chục lần. Hãy bình tĩnh và đừng mất hy vọng vì đây là một trò chơi trí tuệ để kiểm tra trí não của bạn.
+Bạn có nghĩ đây là một trò chơi dễ dàng không? Chỉ cần điều hướng con sâu của bạn lên xuống trái và phải, sau đó đi tới đích. Điều này sẽ đúng với hai cấp độ đầu tiên. Tuy nhiên, bạn sẽ phải có cái nhìn hoàn toàn mới về trò chơi này khi lên đến cấp độ 3. Lý do là hai cấp độ đầu tiên là cấp độ hướng dẫn. Từ cấp độ thứ 3 trở đi, những thử thách thực sự sẽ đến. Hãy nhớ rằng cấp độ càng cao thì bạn càng gặp nhiều khó khăn. Đôi khi, bạn chơi lại một cấp độ hàng chục lần. Hãy bình tĩnh và đừng mất hy vọng vì đây là một trò chơi trí tuệ để kiểm tra trí não của bạn.
 
 ### Cách vượt qua mọi cấp độ trong Apple Worm
-Như đã đề cập, mục tiêu chính của bạn là đi qua cổng. Ăn táo là bước đầu tiên để hoàn thành mục tiêu. Có vẻ dễ dàng để có được quả táo. Tin tôi đi, con sâu của bạn có thể rơi vào khe hở ngay lập tức hoặc mắc kẹt trong một góc hẹp. Vì vậy, trước khi di chuyển bạn nên quan sát địa hình mê cung. Mê cung luôn có một số khối màu nâu với hình dạng đơn giản như hình chữ nhật, hình vuông,… Thoạt nhìn, chúng có vẻ được đặt ngẫu nhiên. Thực chất, vai trò của chúng trong mê cung là ngăn chặn con sâu của bạn trốn thoát nhưng chúng cũng có thể đóng vai trò là vật phẩm hỗ trợ cho bạn. Để tránh mọi nguy hiểm, bạn phải tính toán khéo léo từng động tác. Ước tính từng khoảng trống hoặc góc mà bạn có thể gặp phải. Với chiều dài của con sâu liệu nó có thể vượt qua được chúng không? Nếu rơi vào khoảng trống hoặc bị dồn vào góc, bạn có thể sử dụng nút phát lại để bắt đầu lại màn chơi đó.
+Như đã đề cập, mục tiêu chính của bạn là đi đến đích. Ăn táo là bước đầu tiên để hoàn thành mục tiêu. Có vẻ dễ dàng để có được quả táo. Tin tôi đi, con sâu của bạn có thể rơi vào khe hở ngay lập tức hoặc mắc kẹt trong một góc hẹp. Vì vậy, trước khi di chuyển bạn nên quan sát địa hình mê cung. Mê cung luôn có một số khối màu nâu với hình dạng đơn giản như hình chữ nhật, hình vuông,… Thoạt nhìn, chúng có vẻ được đặt ngẫu nhiên. Thực chất, vai trò của chúng trong mê cung là ngăn chặn con sâu của bạn trốn thoát nhưng chúng cũng có thể đóng vai trò là vật phẩm hỗ trợ cho bạn. Để tránh mọi nguy hiểm, bạn phải tính toán khéo léo từng động tác. Ước tính từng khoảng trống hoặc góc mà bạn có thể gặp phải. Với chiều dài của con sâu liệu nó có thể vượt qua được chúng không? Nếu rơi vào khoảng trống hoặc bị dồn vào góc, bạn có thể sử dụng nút phát lại để bắt đầu lại màn chơi đó.
 
 Bạn còn có thể bật tắt nhạc và hiệu ứng âm thanh trong game bằng hai nút âm lượng ở góc trên bên trái màn hình.
 # 4. Chiến thắng
