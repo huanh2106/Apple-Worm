@@ -67,7 +67,7 @@ Một Menu chọn các level hiện lên với mức độ khó tăng dần. Ở
 
 # 2. Các thành phần trong game:
 
--    Apple ![image](AppleWorm/preview/apple.png)
+-    Apple ![image](AppleWorm/preview/Apple.png)
      : Con sâu ăn apple giúp nó dài ra
      
 -    Stone ![image](AppleWorm/preview/stone.png)
