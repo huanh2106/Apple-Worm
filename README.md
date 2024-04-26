@@ -1,7 +1,7 @@
 
 # AppleWorm by Huy
 
-Demo game:
+Demo game và cấu trúc của code: https://youtu.be/bWGtsP8xy7Q
 
 # Giới thiệu game
 
