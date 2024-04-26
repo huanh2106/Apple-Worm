@@ -24,7 +24,7 @@ Hầu hết mọi người có thể quen thuộc với cơ chế giống như c
 - [6. Nguồn tham khảo](#6-nguồn-tham-khảo)
 - [7. Hướng phát triển](#7-hướng-phát-triển)
 
-# 0. Cách tải gamegame
+# 0. Cách tải game
 
 ## Cách 1: Không bao gồm code.
 
