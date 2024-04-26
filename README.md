@@ -1,8 +1,7 @@
 
 # AppleWorm by Huy
 
-- Thử nghiệm game: [https://youtu.be/EyTwTOWr5zU](https://youtu.be/EziCb7U9UbU)
-- Phá đảo game: https://youtu.be/0RQHeCaz4sg
+Demo game:
 
 # Giới thiệu game
 
