@@ -36,7 +36,7 @@ Giải nén game vào một thư mục và bật AppleWorm.exe lên và chơi.<b
 ## Cách 2: Bao gồm code và có thể biên dịch.
 
 **Bước 1:** Clone repo này về . <br/>
-Hoặc Chọn Code -> Download Zip (Khoảng 90MB)
+Hoặc Chọn Code -> Download Zip 
 
 ![image](AppleWorm/preview/download.png)
 
